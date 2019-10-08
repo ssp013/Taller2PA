@@ -48,6 +48,4 @@ public class Proyecto {
 	public void setCantAreasEspecializacion(int cantAreasEspecializacion) {
 		CantAreasEspecializacion = cantAreasEspecializacion;
 	}
-	
-	
 }

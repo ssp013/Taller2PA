@@ -1,8 +1,22 @@
 
 public class Instalaciones {
-
-	public Instalaciones() {
-		// TODO Auto-generated constructor stub
+	private String NombreInstalacion;
+	private int CantidadDptos;
+	public Instalaciones(String NombreInstalacion,int CantidadDptos) {
+		this.NombreInstalacion = NombreInstalacion;
+		this.CantidadDptos = CantidadDptos;
 	}
-
+	public String getNombreInstalacion() {
+		return NombreInstalacion;
+	}
+	public void setNombreInstalacion(String nombreInstalacion) {
+		NombreInstalacion = nombreInstalacion;
+	}
+	public int getCantidadDptos() {
+		return CantidadDptos;
+	}
+	public void setCantidadDptos(int cantidadDptos) {
+		CantidadDptos = cantidadDptos;
+	}
+	
 }
