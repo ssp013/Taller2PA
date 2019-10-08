@@ -5,6 +5,7 @@ public class App {
 	public static void main(String[]args) {
 		StdOut.println("Bienvenido a Sistema Susto");
 		StdOut.println("Ingrese la fecha actual : ");
+		int fecha = StdIn.readInt();
 	}
 
 }
