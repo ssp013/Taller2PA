@@ -1,11 +1,16 @@
 import ucn.*;
 public class App {
-	
-/*Contiene el desarrollo del sistema*/
-	public static void main(String[]args) {
-		StdOut.println("Bienvenido a Sistema Susto");
-		StdOut.println("Ingrese la fecha actual : ");
-		int fecha = StdIn.readInt();
+	//Funciones: 
+	public static void cargarArchivos() {
+		
+	}
+	public static void main(String[] args) {
+		//Declaracion de variables:
+		int fecha =0;
+		StdOut.println("¡Bienvenido al sistema SUSTO!");
+		StdOut.println("Ingrese la fecha actual (DD/;MM/AAAA) :");
+		fecha =StdIn.readInt();
+		
 	}
 
 }

@@ -6,10 +6,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ucn">
+	<classpathentry kind="lib" path="/Users/ssp013/Desktop/ICCI/Nivel2/Programación Avanzada/Semes PASADO/StdUCN6.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ucn"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -18,5 +18,8 @@ public class Instalaciones {
 	public void setCantidadDptos(int cantidadDptos) {
 		CantidadDptos = cantidadDptos;
 	}
-	
+	public String toString() {
+		return "Instalaciones [NombreInstalacion]: "+this.NombreInstalacion+", [CantidadDptos]: "+this.CantidadDptos;
+	}
 }
+ 
