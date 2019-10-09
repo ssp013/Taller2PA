@@ -15,6 +15,8 @@ public class Departamento {
 	}
 	public void getNombreDpto(String NombreDpto) {
 		this.NombreDpto = NombreDpto;
+		ss
 	}
+	
 	
 }
