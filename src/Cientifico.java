@@ -14,6 +14,9 @@ public class Cientifico {
 		this.Area = Area;
 		this.CostoAsociado = CostoAsociado;
 	}
+	public String getRut() {
+		return Rut;
+	}
 
 	public String getNombre() {
 		return Nombre;
