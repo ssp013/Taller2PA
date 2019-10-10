@@ -5,4 +5,5 @@ public interface SistemaSUSTO {
 	public boolean RegistrarIngreso(String Instalacion, String rutCientifico, String fecha, String hora);
 	public boolean RegistrarSalida(String Instalacion, String rutCientifico, String fecha, String hora);
 	public boolean ReasignarCientifico(String OpcionCambio);
+	public boolean isValid(String dateStr);
 }
