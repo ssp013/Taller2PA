@@ -11,9 +11,14 @@ public class SistemaSUSTOImpl {
         boolean ingreso = ListaCientificos.ingresarCientifico(cientifico);
         return ingreso;
     }
+    
+    
     public boolean crearInstalacion(String nombreInst, int cantDptos, String []listaDptos,int []listaCapacidades){
         
     }
+    
+    
+    
     public boolean registrarIngreso(String instalacion,String rutCientifico,String fecha,String hora){
         for(int i=0;i<ListaCientificos.getCantCientificos;i++){
             if(ListaCientificos[i].getInstalacion.equals(instalacion)){
@@ -27,6 +32,10 @@ public class SistemaSUSTOImpl {
             return false;    
         }
     }
+    
+    
+    
+    
     public boolean registrarSalida(String instalacion,String rutCientifico, String fecha, String hora){
         for(int i=0;i<ListaCientificos.getCantCientificos;i++)){
             if(ListaCientificos[i].getInstalacion.equals(instalacion)){
@@ -35,13 +44,74 @@ public class SistemaSUSTOImpl {
                     boolean registro = ListaSalidas.ingresaSalida(salida);
                     return registro;
                 }
+                else{
+                    return false;
+                }
+                
+            }
+            else{
                 return false;
             }
-            return false;
         }
     }
-    public boolean ingresar cientificoProyecto(String rutCientifico, String codProyecto)
-    public boolean reasignarCientificoProyecto(String rutCientifico, String codProyecto){
+    
+    
+    
+    
+    public boolean ingresarCientificoProyecto(String rutCientifico, String codProyecto){
+        AsociacionCP asociacion = new AsociacionCP(rutCliente,codProyecto);
+        boolean ingreso = ListaAsociacionCP.ingresarAsociacion(asociacion);
+        return ingreso;
+    }
+    
+    
+    
+    public boolean ingresarCientificoInstalacion(String rutCientifico, String NombreInstalacion){
+        AsociacionCI asociacion = new AsociacionCI(rutCliente,nomInstalacion);
+        boolean ingreso = ListaAsociacionCI.ingresarAsociacion(asociacion);
+        return ingreso;
+    }
+    
+    
+    
+    
+    public boolean reasignarCientificoProyecto(String rutCientifico, String codProyectoA, String codProyectoN){
+        //codProyectoA es el codigo del proytecto antiguo y codProyectoN es el codigo del proyecto nuevo.
+        for(int i=0;i<ListaAsociacionCF.getCantidad;i++){
+            if(ListaProyectos[i].equals(codProyectoA)&& ListaProyectos[i].equals(codProyectoN)){
+                ListaAsociacionCF[i].setCodProyecto(codProyectoN);
+                return true;
+                 
+            }
+            else{
+                return false;
+            }
+        }
         
     }
+    
+    
+    
+    
+    public boolean reasignarCientificoInstalacion(String rutCientifico, String nomInstalacionA, String nomInstalacionN){
+
+        for(int i=0;i<ListaAsociacionCI.getCantidad;i++){
+            if(ListaInsta[i].equals(nomInstalacionA)&& ListaInsta[i].equals(nomInstalacionN)){
+                ListaAsociacionCI[i].setNombreInstalacion(nomInstalacionN);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
