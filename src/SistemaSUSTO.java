@@ -6,4 +6,5 @@ public interface SistemaSUSTO {
 	public boolean RegistrarSalida(String Instalacion, String rutCientifico, String fecha, String hora);
 	public boolean ReasignarCientifico(String OpcionCambio);
 	public boolean isValid(String dateStr);
+	public boolean contratarCientifico(String nombre, String apellidoP, String apellidoM, String Area, int costoAsociado, String proyecto, String dpto, String instalacion);
 }

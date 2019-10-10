@@ -1,47 +1,64 @@
 import ucn.*;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+public class App { 
+	public static void desplegarMenu() {
+		StdOut.println("1. Cargar Archivos \n2. Crear Nuevas Entidades \n3. Registrar Ingreso y Salida \n4. Reasignar Científico \n5. Reportes de Personal y Costos \n6. Cierre de Sistema");
+	}
+	public static boolean validarFecha(SistemaSUSTO sistema,String dateStr) {
+		boolean result = sistema.isValid(dateStr);
+		if(result) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
-public class App {
-	//Comprobar Fecha:
-	public static void ComprobarFecha() {
-		Date fecha = new Date();
-		SimpleDateFormat timeFormat = new SimpleDateFormat("dd/MM/yyyy");
-		String todayDay = timeFormat.format(fecha);
-		
-		StdOut.println("Ingrese la fecha actual (dd/mm/yyyy");
-		String DateInsert = StdIn.readString();
-	}
-	public static void VerificarFecha() {
-		try {
-			String fechaIngreso ="30/02/2016";
-			Date fecha = new SimpleDateFormat("dd/MM/yyyy").parse(fechaIngreso);
-			String fechaSalida = new SimpleDateFormat("dd/MM/yyyy").format(fecha);
-			StdOut.println ("ingreso: "+fechaIngreso);
-			StdOut.println(fecha);
-			StdOut.println(fechaSalida);	
-			StdOut.println((fechaIngreso.equals(fechaSalida))?"fecha correcta":"fecha incorrecta");
-		} catch (Exception e) {
-			if
-		}
-	}
-	//Funciones: 
-	public static void menu() {
-		//Declaracion de variables:
-		StdOut.println("¡Bienvenido al sistema SUSTO!");
-		VerificarFecha();//Verificamos fecha ingresada..
-		//Opcion MENU:
-		int opcion=0;
-		while(opcion!= 6) {
-			StdOut.println("1. Cargar Archivos \n2. Crear Nuevas Entidades \n3. Registrar Ingreso y Salida \n4. Reasignar Científico \n5. Reportes de Personal y Costos \n6. Cierre de Sistema");
-			opcion = StdIn.readInt();
-		}
+	public static void menu(SistemaSUSTO sistema) {
+        desplegarMenu();
+        StdOut.println("Ingrese opcion: ");
+        int op = StdIn.readInt();
+        
+        while(op!=6){
+            switch(op){
+                case 1:
+                    
+                break;
+                case 2:
+                
+                break;
+                case 3:
+                    
+                break;
+                case 4:
+                
+                break;
+                case 5:
+                    
+                break;
+               
+            }
+            desplegarMenu();
+            StdOut.println("Ingrese opcion: ");
+            op = StdIn.readInt();
+        }
 	
 	}
 	public static void main(String[] args) {
-		menu();
+		StdOut.println("¡Bienvenido al sistema SUSTO!");
+		SistemaSUSTO sistema = new SistemaSUSTOImpl();
+		StdOut.println("Ingrese la fecha (dd/MM/yyyy) :");
+		String dateStr = StdIn.readString();
+		boolean resultado = validarFecha(sistema,dateStr);
+		while(!resultado) {
+			StdOut.println("Ingrese fecha correcta!");
+			dateStr = StdIn.readString();
+			resultado = validarFecha(sistema,dateStr);
+		}
+		menu(sistema);
 		
 	}
 
