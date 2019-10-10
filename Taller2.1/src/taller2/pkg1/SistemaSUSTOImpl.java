@@ -12,6 +12,9 @@ public class SistemaSUSTOImpl {
     private ListaInsta listaInsta;
     private ListaAsociacionCP listaAsociacionCP;
     private ListaAsociacionCI listaAsociacionCI;
+    private ListaIngresos listaIngresos;
+    private ListaSalidas listaSalidas;
+    
 
     public SistemaSUSTOImpl(ListaCientificos listaCientificos, ListaDptos listaDptos, ListaProyectos listaProyectos, ListaInsta listaInsta, ListaAsociacionCP listaAsociacionCP, ListaAsociacionCI listaAsociacionCI) {
         this.listaCientificos = listaCientificos;
@@ -58,7 +61,7 @@ public class SistemaSUSTOImpl {
             if(ListaCientificos[i].getInstalacion.equals(instalacion)){
                 if(ListaCientificos[i].getRut.equals(rutCientifico)){
                     Salida salida = new Salida(instalacion,rutCientifico,fecha,hora);
-                    boolean registro = ListaSalidas.ingresaSalida(salida);
+                    boolean registro = ListaSalidas.ingresarSalida(salida);
                     return registro;
                 }
                 else{
