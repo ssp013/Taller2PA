@@ -1,5 +1,3 @@
-package taller2.pkg1;
-
 public class ListaSalidas {
     private Salida[]ListaSalidas;
     private int CantSalidas;

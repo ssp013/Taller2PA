@@ -1,6 +1,3 @@
-
-package taller2.pkg1;
-
 public class AsociacionCI {
     private String rutCientifico;
     private String NombreInstalacion;
