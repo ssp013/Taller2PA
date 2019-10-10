@@ -24,7 +24,7 @@ public class App {
 			StdOut.println(fechaSalida);	
 			StdOut.println((fechaIngreso.equals(fechaSalida))?"fecha correcta":"fecha incorrecta");
 		} catch (Exception e) {
-			
+			if
 		}
 	}
 	//Funciones: 
