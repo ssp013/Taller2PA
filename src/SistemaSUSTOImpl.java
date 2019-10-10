@@ -1,11 +1,20 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
+import ucn.*;
 /**
  *
  * @author TomasSandoval Sebastian Sanchez
  */
 public class SistemaSUSTOImpl implements SistemaSUSTO {
+    private ListaCientificos listaCientificos;
+    private ListaDptos listaDptos;
+    private ListaProyectos listaProyectos;
+    private ListaInsta listaInsta;
+    private ListaAsociacionCP listaAsociacionCP;
+    private ListaAsociacionCI listaAsociacionCI;
+    private ListaIngresos listaIngresos;
+    private ListaSalidas listaSalidas;
 	private String dateFormat;
 	@Override
 	public boolean CrearInstalacion(String NombreInstalacion, int CantidadDptos) {
