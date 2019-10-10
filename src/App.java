@@ -36,16 +36,28 @@ public class App {
 	 }
 	public static void cargarInstalaciones(SistemaSUSTO sistema) throws IOException {
 		ArchivoEntrada archivoInstalaciones = new ArchivoEntrada("Instalaciones.txt");
+		
 		while(!archivoInstalaciones.isEndFile()){
 			Registro regEnt = archivoInstalaciones.getRegistro();
 			//Se separa el registro en los campos que lo constituyen
 			String nombreInstalacion = regEnt.getString(); 
-			int cantDepartamentos = regEnt.getInt();
+			StdOut.println(nombreInstalacion);
+			
+			int cantDepartamentos =  regEnt.getInt();
+			String[] ListaDepartamento = new String[cantDepartamentos];
+			int[] ListaCapacidad = new int[cantDepartamentos];
 			for(int i=0;i<cantDepartamentos;i++) {
 				String Departamento = regEnt.getString();
 				int capacidad = regEnt.getInt();
-				
+				ListaDepartamento[i]=Departamento;
+				ListaCapacidad[i]=capacidad;				
 			}
+			for(int l=0;l<cantDepartamentos;l++){
+				StdOut.print(ListaDepartamento[l]+",");
+				StdOut.print(ListaCapacidad[l]);
+				StdOut.println("");
+			}
+			
 		}
 		archivoInstalaciones.close();
 		
