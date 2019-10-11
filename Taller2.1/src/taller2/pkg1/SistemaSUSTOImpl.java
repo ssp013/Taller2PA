@@ -79,16 +79,16 @@ public class SistemaSUSTOImpl {
     
     
     public boolean ingresarCientificoProyecto(String rutCientifico, String codProyecto){
-        AsociacionCP asociacion = new AsociacionCP(rutCliente,codProyecto);
-        boolean ingreso = ListaAsociacionCP.ingresarAsociacion(asociacion);
+        AsociacionCP asociacion = new AsociacionCP(rutCientifico,codProyecto);
+        boolean ingreso = ListaAsociacionCP.ingresarAsociacionCP(asociacion);
         return ingreso;
     }
     
     
     
     public boolean ingresarCientificoInstalacion(String rutCientifico, String NombreInstalacion){
-        AsociacionCI asociacion = new AsociacionCI(rutCliente,nomInstalacion);
-        boolean ingreso = ListaAsociacionCI.ingresarAsociacion(asociacion);
+        AsociacionCI asociacion = new AsociacionCI(rutCientifico,NombreInstalacion);
+        boolean ingreso = ListaAsociacionCI.ingresarAsociacionCI(asociacion);
         return ingreso;
     }
     
@@ -97,7 +97,7 @@ public class SistemaSUSTOImpl {
     
     public boolean reasignarCientificoProyecto(String rutCientifico, String codProyectoA, String codProyectoN){
         //codProyectoA es el codigo del proytecto antiguo y codProyectoN es el codigo del proyecto nuevo.
-        for(int i=0;i<ListaAsociacionCP.getCantitdad;i++){
+        for(int i=0;i<ListaAsociacionCP.getCantAsociacionesCP;i++){
             if(ListaAsociacionCP[i].getRutCientifico.equals(rutCientifico)&& ListaAsociacionCP[i].getCodigoProyecto.equals(codProyectoA)){
                 for(int j=0;j<ListaProyectos.getCantProyectos;j++){
                     if(ListaProyectos[i].equals(codProyectoN)){
@@ -122,7 +122,7 @@ public class SistemaSUSTOImpl {
     
     
     public boolean reasignarCientificoInstalacion(String rutCientifico, String nomInstalacionA, String nomInstalacionN){
-        for(int i=0;i<ListaAsociacionCI.getCantidad;i++){
+        for(int i=0;i<ListaAsociacionCI.getCantAsociacionesCI;i++){
             if(ListaAsociacionCI[i].getRutCientifico.equals(rutCientifico)&& ListaAsociacionCI[i].getNombreInstalacion.equals(nomInstalacionA)){
                 for(int j=0;j<ListaInsta.getCantInsta;i++){
                     if(ListaInsa[i].equals(nomInsalacionN)){
