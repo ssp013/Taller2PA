@@ -32,7 +32,7 @@ public class SistemaSUSTOImpl {
     
     public boolean contratarCientifico(String nombre, String apellidoP, String apellidoM, String Area, int costoAsociado, String proyecto, String dpto, String instalacion){
         Cientifico cientifico = new Cientifico(nombre,apellidoP,apellidoM,Area,costoAsociado,proyecto,dpto,instalacion);
-        boolean ingreso = ListaCientificos.ingresarCientifico(cientifico);
+        boolean ingreso = listaCientificos.ingresarCientifico(cientifico);
         return ingreso;
     }
     
@@ -44,11 +44,11 @@ public class SistemaSUSTOImpl {
     
     
     public boolean registrarIngreso(String instalacion,String rutCientifico,String fecha,String hora){
-        for(int i=0;i<ListaCientificos.getCantCientificos;i++){
-            if(ListaCientificos[i].getInstalacion.equals(instalacion)){
-                if(ListaCientificos[i].getRut.equals(rutCientifico)){
+        for(int i=0;i<listaCientificos.getCantCientificos;i++){
+            if(listaCientificos[i].getInstalacion.equals(instalacion)){
+                if(listaCientificos[i].getRut.equals(rutCientifico)){
                     Ingreso ingreso = new Ingreso(instalacion,rutCientifico,fecha,hora);
-                    boolean registro = ListaIngresos.ingresarIngreso(ingreso);
+                    boolean registro = listaIngresos.ingresarIngreso(ingreso);
                     return registro;
                 }
                 return false;
@@ -61,11 +61,11 @@ public class SistemaSUSTOImpl {
     
     
     public boolean registrarSalida(String instalacion,String rutCientifico, String fecha, String hora){
-        for(int i=0;i<ListaCientificos.getCantCientificos;i++)){
-            if(ListaCientificos[i].getInstalacion.equals(instalacion)){
-                if(ListaCientificos[i].getRut.equals(rutCientifico)){
+        for(int i=0;i<listaCientificos.getCantCientificos;i++)){
+            if(listaCientificos[i].getInstalacion.equals(instalacion)){
+                if(listaCientificos[i].getRut.equals(rutCientifico)){
                     Salida salida = new Salida(instalacion,rutCientifico,fecha,hora);
-                    boolean registro = ListaSalidas.ingresarSalida(salida);
+                    boolean registro = listaSalidas.ingresarSalida(salida);
                     return registro;
                 }
                 else{
