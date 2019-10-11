@@ -18,16 +18,20 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 
 	private String dateFormat;
 	@Override
-	public boolean CrearInstalacion(String NombreInstalacion, int CantidadDptos) {
+	public boolean CrearInstalacion(String NombreInstalacion, int CantidadDptos,String []listaDptos,int []listaCapacidades) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
-	public boolean ContratarCientifico(String Rut, String Nombre, String ApellidoP, String ApellidoM, String Area,
-			int CostoAsociado) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean ContratarCientifico(String Rut, String Nombre, String ApellidoP, String ApellidoM, String Area,int CostoAsociado) {
+		//Verificar si existe cientifico en BD o lo agregamos.
+		Cientifico cientifico = new Cientifico(Rut,Nombre,ApellidoP,ApellidoM,Area,CostoAsociado);//proyecto,dpto,instalacion
+		boolean ingreso = listaCientificos.ingresarCientifico(cientifico);
+		return ingreso;
 	}
+
+	
+	
 	@Override
 	public boolean RegistrarIngreso(String Instalacion, String rutCientifico, String fecha, String hora) {
 		// TODO Auto-generated method stub
