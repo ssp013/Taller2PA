@@ -14,16 +14,20 @@ public class SistemaSUSTOImpl {
     private ListaAsociacionCI listaAsociacionCI;
     private ListaIngresos listaIngresos;
     private ListaSalidas listaSalidas;
-    
 
-    public SistemaSUSTOImpl(ListaCientificos listaCientificos, ListaDptos listaDptos, ListaProyectos listaProyectos, ListaInsta listaInsta, ListaAsociacionCP listaAsociacionCP, ListaAsociacionCI listaAsociacionCI) {
+    public SistemaSUSTOImpl(ListaCientificos listaCientificos, ListaDptos listaDptos, ListaProyectos listaProyectos, ListaInsta listaInsta, ListaAsociacionCP listaAsociacionCP, ListaAsociacionCI listaAsociacionCI, ListaIngresos listaIngresos, ListaSalidas listaSalidas) {
         this.listaCientificos = listaCientificos;
         this.listaDptos = listaDptos;
         this.listaProyectos = listaProyectos;
         this.listaInsta = listaInsta;
         this.listaAsociacionCP = listaAsociacionCP;
         this.listaAsociacionCI = listaAsociacionCI;
+        this.listaIngresos = listaIngresos;
+        this.listaSalidas = listaSalidas;
     }
+    
+
+    
     
     
     public boolean contratarCientifico(String nombre, String apellidoP, String apellidoM, String Area, int costoAsociado, String proyecto, String dpto, String instalacion){
@@ -80,7 +84,7 @@ public class SistemaSUSTOImpl {
     
     public boolean ingresarCientificoProyecto(String rutCientifico, String codProyecto){
         AsociacionCP asociacion = new AsociacionCP(rutCientifico,codProyecto);
-        boolean ingreso = ListaAsociacionCP.ingresarAsociacionCP(asociacion);
+        boolean ingreso = listaAsociacionCP.ingresarAsociacionCP(asociacion);
         return ingreso;
     }
     
@@ -88,7 +92,7 @@ public class SistemaSUSTOImpl {
     
     public boolean ingresarCientificoInstalacion(String rutCientifico, String NombreInstalacion){
         AsociacionCI asociacion = new AsociacionCI(rutCientifico,NombreInstalacion);
-        boolean ingreso = ListaAsociacionCI.ingresarAsociacionCI(asociacion);
+        boolean ingreso = listaAsociacionCI.ingresarAsociacionCI(asociacion);
         return ingreso;
     }
     
@@ -122,11 +126,11 @@ public class SistemaSUSTOImpl {
     
     
     public boolean reasignarCientificoInstalacion(String rutCientifico, String nomInstalacionA, String nomInstalacionN){
-        for(int i=0;i<ListaAsociacionCI.getCantAsociacionesCI;i++){
-            if(ListaAsociacionCI[i].getRutCientifico.equals(rutCientifico)&& ListaAsociacionCI[i].getNombreInstalacion.equals(nomInstalacionA)){
+        for(int i=0;i<listaAsociacionCI.getCantAsociacionesCI;i++){
+            if(listaAsociacionCI[i].getRutCientifico.equals(rutCientifico)&& listaAsociacionCI[i].getNombreInstalacion.equals(nomInstalacionA)){
                 for(int j=0;j<ListaInsta.getCantInsta;i++){
-                    if(ListaInsa[i].equals(nomInsalacionN)){
-                        ListaAsociacionCI.setNombreInstalacion(nomInstalacionN);
+                    if(listaInsa[i].equals(nomInsalacionN)){
+                        listaAsociacionCI.setNombreInstalacion(nomInstalacionN);
                         return true;
                     }
                     else{
