@@ -5,6 +5,8 @@ public class Cientifico {
 	private String ApellidoM;
 	private String Area;
 	private int CostoAsociado;
+	private boolean Estado;
+	private ListaProyectos listaProyectos;
 	
 	public Cientifico(String Rut,String Nombre,String ApellidoP,String ApellidoM,String Area,int CostoAsociado) {
 		this.Rut = Rut;
