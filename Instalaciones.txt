@@ -1,2 +1,0 @@
-Instalacion1,2,depto1,2,depto2,3
-Instalacion2,3,depto1,2,depto2,3,depto3,5

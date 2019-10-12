@@ -31,7 +31,9 @@ public class ListaProyectos {
 		}
 	}
 	public Proyecto getProyectoI(int i) {
-		
+		if(i>=0 && i<cantProyecto) {
+			return lp[i];
+		}
 	}
 
 }
