@@ -38,6 +38,9 @@ public class ListaAreaEspecializacion {
 			return null;
 		}
 	}
+	public int getcantArea() {
+		return this.cantAreaEspecializacion;
+	}
 	
 
 }

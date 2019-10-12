@@ -62,7 +62,7 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 	}
 	@Override
 	public boolean ContratarCientifico(String rut, String nombre, String apellidoP, String apellidoM, String AreaEspecializacion,
-			int costoAsociado, ListaInstalacionesCient[] listaInstalacionesCient, String dpto, String instalacion) {
+			int costoAsociado, ListaProyectoCient [] listaProyectoCient, String dpto, String instalacion) {
 		boolean contratar = false;
 		//Verificar si existe o no el cientifico:
 		Cientifico CientificoBuscado = listaCientificos.buscarCientifico(rut);
@@ -77,7 +77,10 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 				if(departamentoBuscado!=null) {
 					//puedo verficar q si esta ese departamento
 					//Verificamos si existe o no sus proyectos, debemos recprrer su lista.
-					
+					for(int i =0;i<listaProyectoCient.getCantProyecto();i++) {
+						Proyecto proyectodelCientifico = listaProyectoCient.buscarProyecto(); 
+						ListaProyectos listaProyectosBuscado = listaProyectos.buscarProyecto(listaProyectoCient)
+					}
 				}
 			}
 			
