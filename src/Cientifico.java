@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Cientifico {
 	private String Rut;
 	private String Nombre;
@@ -5,19 +7,26 @@ public class Cientifico {
 	private String ApellidoM;
 	private String Area;
 	private int CostoAsociado;
-	private boolean Estado;
-	private ListaProyectos listaProyectos;
+	private ListaProyectos[] listaProyectos;
+	private ListaInsta[] listaInstalaciones;
 	
-	public Cientifico(String Rut,String Nombre,String ApellidoP,String ApellidoM,String Area,int CostoAsociado) {
+	public Cientifico(String Rut,String Nombre,String ApellidoP,String ApellidoM,String Area,int CostoAsociado,ListaProyectos[] listaProyectos,ListaInsta[] listaInstalaciones) {
 		this.Rut = Rut;
 		this.Nombre = Nombre;
 		this.ApellidoP=ApellidoP;
 		this.ApellidoM = ApellidoM;
 		this.Area = Area;
 		this.CostoAsociado = CostoAsociado;
+		this.listaProyectos = listaProyectos;
+		this.listaInstalaciones = listaInstalaciones;
+		
 	}
 	public String getRut() {
 		return Rut;
+	}
+
+	public void setRut(String rut) {
+		Rut = rut;
 	}
 
 	public String getNombre() {
@@ -59,6 +68,29 @@ public class Cientifico {
 	public void setCostoAsociado(int costoAsociado) {
 		CostoAsociado = costoAsociado;
 	}
+
+	public ListaProyectos[] getListaProyectos() {
+		return listaProyectos;
+	}
+
+	public void setListaProyectos(ListaProyectos[] listaProyectos) {
+		this.listaProyectos = listaProyectos;
+	}
+
+	public ListaInsta[] getListaInstalaciones() {
+		return listaInstalaciones;
+	}
+
+	public void setListaInstalaciones(ListaInsta[] listaInstalaciones) {
+		this.listaInstalaciones = listaInstalaciones;
+	}
+	@Override
+	public String toString() {
+		return "Cientifico [Rut=" + Rut + ", Nombre=" + Nombre + ", ApellidoP=" + ApellidoP + ", ApellidoM=" + ApellidoM
+				+ ", Area=" + Area + ", CostoAsociado=" + CostoAsociado + ", listaProyectos="
+				+ Arrays.toString(listaProyectos) + ", listaInstalaciones=" + Arrays.toString(listaInstalaciones) + "]";
+	}
+	
 	
 
 }
