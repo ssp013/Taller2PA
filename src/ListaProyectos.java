@@ -34,6 +34,10 @@ public class ListaProyectos {
 		if(i>=0 && i<cantProyecto) {
 			return lp[i];
 		}
+		else {
+			return null;
+		}
 	}
+	
 
 }
