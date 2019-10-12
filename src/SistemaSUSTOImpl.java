@@ -77,10 +77,7 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 				if(departamentoBuscado!=null) {
 					//puedo verficar q si esta ese departamento
 					//Verificamos si existe o no sus proyectos, debemos recprrer su lista.
-					for(int i =0;i<listaProyectoCient.getCantProyecto();i++) {
-						Proyecto proyectodelCientifico = listaProyectoCient.buscarProyecto(); 
-						ListaProyectos listaProyectosBuscado = listaProyectos.buscarProyecto(listaProyectoCient)
-					}
+					listaProyectoCient.
 				}
 			}
 			

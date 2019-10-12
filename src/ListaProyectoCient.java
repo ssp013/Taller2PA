@@ -1,4 +1,3 @@
-
 public class ListaProyectoCient {
 	private Proyecto [] lp;
 	private int cantProyecto;
