@@ -7,19 +7,17 @@ public class Cientifico {
 	private String ApellidoM;
 	private String Area;
 	private int CostoAsociado;
-	private ListaProyectos[] listaProyectos;
-	private ListaInsta[] listaInstalaciones;
+	private ListaProyectoCient[] listaProyectos;
+	private ListaInstalacionesCient[] listaInstalaciones;
 	
-	public Cientifico(String Rut,String Nombre,String ApellidoP,String ApellidoM,String Area,int CostoAsociado,ListaProyectos[] listaProyectos,ListaInsta[] listaInstalaciones) {
+	public Cientifico(String Rut,String Nombre,String ApellidoP,String ApellidoM,
+			String Area,int CostoAsociado) {
 		this.Rut = Rut;
 		this.Nombre = Nombre;
 		this.ApellidoP=ApellidoP;
 		this.ApellidoM = ApellidoM;
 		this.Area = Area;
 		this.CostoAsociado = CostoAsociado;
-		this.listaProyectos = listaProyectos;
-		this.listaInstalaciones = listaInstalaciones;
-		
 	}
 	public String getRut() {
 		return Rut;

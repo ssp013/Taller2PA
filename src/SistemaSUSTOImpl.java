@@ -10,28 +10,18 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
     private ListaCientificos listaCientificos;
     private ListaDptos listaDptos;
     private ListaProyectos listaProyectos;
+
     private ListaInsta listaInsta;
-    //private ListaAsociacionCP listaAsociacionCP;
-    //private ListaAsociacionCI listaAsociacionCI;
     private ListaIngresos listaIngresos;
     private ListaSalidas listaSalidas;
-
 	private String dateFormat;
+	
 	@Override
-	public boolean CrearInstalacion(String NombreInstalacion, int CantidadDptos,String []listaDptos,int []listaCapacidades) {
+	public boolean CrearInstalacion(String NombreInstalacion, int CantidadDptos, String[] listaDptos,
+			int[] listaCapacidades) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	@Override
-	public boolean ContratarCientifico(String Rut, String Nombre, String ApellidoP, String ApellidoM, String Area,int CostoAsociado) {
-		//Verificar si existe cientifico en BD o lo agregamos.
-		Cientifico cientifico = new Cientifico(Rut,Nombre,ApellidoP,ApellidoM,Area,CostoAsociado);//proyecto,dpto,instalacion
-		boolean ingreso = listaCientificos.ingresarCientifico(cientifico);
-		return ingreso;
-	}
-
-	
-	
 	@Override
 	public boolean RegistrarIngreso(String Instalacion, String rutCientifico, String fecha, String hora) {
 		// TODO Auto-generated method stub
@@ -44,12 +34,6 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 	}
 	@Override
 	public boolean ReasignarCientifico(String OpcionCambio) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean contratarCientifico(String nombre, String apellidoP, String apellidoM, String Area,
-			int costoAsociado, String proyecto, String dpto, String instalacion) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -75,5 +59,29 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 			return false;
 		}
 		
+	}
+	@Override
+	public boolean ContratarCientifico(String rut, String nombre, String apellidoP, String apellidoM, String AreaEspecializacion,
+			int costoAsociado, ListaInstalacionesCient[] listaInstalacionesCient, String dpto, String instalacion) {
+		boolean contratar = false;
+		//Verificar si existe o no el cientifico:
+		Cientifico CientificoBuscado = listaCientificos.buscarCientifico(rut);
+		if(CientificoBuscado == null) {
+			//significa que podemos agregarlo:
+			//verificar si la instalacion ingresada existe.
+			Instalaciones InstalacionBuscada = listaInsta.buscarInsta(instalacion);
+			if(InstalacionBuscada != null) {
+				//entonces tenemos la instalacion:
+				//recorro ahora elm depto:
+				Departamento departamentoBuscado = listaDptos.buscarDpto(dpto);
+				if(departamentoBuscado!=null) {
+					//puedo verficar q si esta ese departamento
+					//Verificamos si existe o no sus proyectos, debemos recprrer su lista.
+					
+				}
+			}
+			
+		}
+		return contratar;
 	}
 }
