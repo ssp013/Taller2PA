@@ -103,10 +103,12 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 											ListaInstalacionesCient ListaInstaAgregar = new ListaInstalacionesCient(listaProyectoCientificoIngresado.getCantProyecto());
 											boolean IngresoProyecto = ListaProyectosEncontrado.ingresarProyecto(proyectoCientifico);
 											boolean IngresoInsta = ListaInstaAgregar.ingresarInstaCient( instalacionEncontrada);
-											if(IngresoProyecto== true && IngresoInsta==true) {
-												contratar=true;
+											if(IngresoProyecto== true && IngresoInsta==true && depto1.getCapacidadDpto()>0) {
 												//descontar presupuesto de proyecto..Verificar capacidad de los depto para alojar cinetificos..
-												return contratar;
+												int presupuesto = proyectoEncontrado.getPresupuestoTotal() -costoAsociado;
+												proyectoEncontrado.setPresupuestoTotal(presupuesto);//disminuimos su presupuesto.
+												contratar=true;
+												return contratar;													
 											}
 										}
 									}
