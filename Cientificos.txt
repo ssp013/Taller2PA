@@ -1,0 +1,3 @@
+191006577,Seba,Sanchez,Perez,areaEspecificacion1,5000
+200000000,Alex,BuenDia,Rojas,areaEspecificacion2,9000
+182340000,Laura,Diaz,franshoti,areaEspecificacion3,10000
