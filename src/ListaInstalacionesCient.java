@@ -10,8 +10,8 @@ public class ListaInstalacionesCient {
 	}
 	public boolean ingresarInstaCient(Instalaciones i) {
 		if(this.CantInsta < this.max) {
-			li[this.CantInsta]=i;
-			this.CantInsta++;
+			li[CantInsta]=i;
+			CantInsta++;
 			return true;
 		}else {
 			return false;

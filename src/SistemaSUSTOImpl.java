@@ -98,8 +98,16 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 										AreaEspecializacion AreaEncontrada = listaAreaEspecializacion.buscarEspecializacion(AreaEspecializacion);
 										if(AreaEncontrada!=null) {
 											//Creamos al cientifico.
-											Cientifico CientificoContrado = new Cientifico(rut,nombre,apellidoP,apellidoM,AreaEspecializacion, costoAsociado);
-											listaProyectoCient.
+											Cientifico CientificoEncontrado = new Cientifico(rut,nombre,apellidoP,apellidoM,AreaEspecializacion, costoAsociado);
+											ListaProyectosCient ListaProyectosEncontrado = new ListaProyectosCient(listaProyectoCientificoIngresado.getCantProyecto());
+											ListaInstalacionesCient ListaInstaAgregar = new ListaInstalacionesCient(listaProyectoCientificoIngresado.getCantProyecto());
+											boolean IngresoProyecto = ListaProyectosEncontrado.ingresarProyecto(proyectoCientifico);
+											boolean IngresoInsta = ListaInstaAgregar.ingresarInstaCient( instalacionEncontrada);
+											if(IngresoProyecto== true && IngresoInsta==true) {
+												contratar=true;
+												//descontar presupuesto de proyecto..Verificar capacidad de los depto para alojar cinetificos..
+												return contratar;
+											}
 										}
 									}
 									
