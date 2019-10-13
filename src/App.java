@@ -19,6 +19,27 @@ public class App {
 			return false;
 		}
 	}
+	public static boolean validarRut(String rut) {
+		boolean validacion = false;
+		try {
+		rut =  rut.toUpperCase();
+		rut = rut.replace(".", "");
+		rut = rut.replace("-", "");
+		int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+		char dv = rut.charAt(rut.length() - 1);
+		int m = 0, s = 1;
+		for (; rutAux != 0; rutAux /= 10) {
+		s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
+		}
+		if (dv == (char) (s != 0 ? s + 47 : 75)) {
+		validacion = true;
+		}
+
+		} catch (java.lang.NumberFormatException e) {
+		} catch (Exception e) {
+		}
+		return validacion;
+		}	
 	public static int validarOpcion()
 	 {
 	  while (true)
@@ -62,6 +83,49 @@ public class App {
 		archivoInstalaciones.close();
 		
 	}
+	public static void desplegarMenuCrearNuevasEntidades() {
+		StdOut.println("1. Crear Instalación \n2. Crear Departamento \n3. Contratar Científico \n4.Salir ");
+	}
+	public static void contratarCientificos(SistemaSUSTO sistema) {
+		StdOut.println("Ingrese el rut del cientifico: ");
+		String rut = StdIn.readString();
+		boolean respuesta = validarRut(rut);
+		if(respuesta) {
+			StdOut.println("es un rut");
+		}else {
+			StdOut.println("No es un Rut");
+		}
+		
+		
+		//sistema.ContratarCientifico(rut, nombre, apellidoP, apellidoM, AreaEspecializacion, costoAsociado, listaProyectoCient, dpto, instalacion);
+	}
+	public static void menuCrearNuevasEntidades(SistemaSUSTO sistema) throws IOException {
+		desplegarMenuCrearNuevasEntidades();
+        StdOut.println("Ingrese una opción ");
+        int op = validarOpcion();
+        while(op!=4){
+            switch(op){
+                case 1:
+                	//Cargar archivo.
+                	
+                break;
+                case 2:
+                	//Creamos nuevas entidades.
+                	
+                break;
+                case 3:
+                	contratarCientificos(sistema);
+                break;
+                case 4:
+                
+                break;
+            }
+            desplegarMenuCrearNuevasEntidades();
+            StdOut.println("Ingrese una opción ");
+            op = validarOpcion();
+        }	
+	}
+	
 	public static void menu(SistemaSUSTO sistema) throws IOException {
         desplegarMenu();
         StdOut.println("Ingrese una opción ");
@@ -69,23 +133,22 @@ public class App {
         while(op!=6){
             switch(op){
                 case 1:
-                	//Cargar archivo.
                 	cargarInstalaciones(sistema);
-                    
                 break;
                 case 2:
-                
+                	cargarInstalaciones(sistema);
                 break;
                 case 3:
-                    
+                	cargarInstalaciones(sistema);
                 break;
                 case 4:
-                
+                	cargarInstalaciones(sistema);
                 break;
                 case 5:
-                    
+                	cargarInstalaciones(sistema);
                 break;
-               
+                case 6:
+                break;
             }
             desplegarMenu();
             StdOut.println("Ingrese una opción ");
@@ -105,7 +168,6 @@ public class App {
 			resultado = validarFecha(sistema,dateStr);
 		}
 		menu(sistema);
-		
 	}
 
 }
