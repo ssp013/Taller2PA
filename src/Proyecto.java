@@ -5,10 +5,10 @@ public class Proyecto {
 	private int PresupuestoTotal;
 	private String DptoResponsable;
 	private int  CantAreasEspecializacion;
-	private ListaAreaEspecializacion [] listaEspecializacion;
+	private ListaAreaEspecializacion  listaEspecializacion;
 	
 	
-	public Proyecto (String CodigoProyecto,String NombreProyecto,int PresupuestoTotal,String DptoResponsable,int  CantAreasEspecializacion,ListaAreaEspecializacion [] listaEspecializacion) {
+	public Proyecto (String CodigoProyecto,String NombreProyecto,int PresupuestoTotal,String DptoResponsable,int  CantAreasEspecializacion,ListaAreaEspecializacion listaEspecializacion) {
 		this.CodigoProyecto = CodigoProyecto;
 		this.NombreProyecto = NombreProyecto;
 		this.PresupuestoTotal = PresupuestoTotal;
@@ -54,12 +54,12 @@ public class Proyecto {
 	public void setCantAreasEspecializacion(int cantAreasEspecializacion) {
 		CantAreasEspecializacion = cantAreasEspecializacion;
 	}
-	public ListaAreaEspecializacion[] getListaEspecializacion() {
+	public ListaAreaEspecializacion getListaEspecializacion() {
 		return listaEspecializacion;
 	}
 
 
-	public void setListaEspecializacion(ListaAreaEspecializacion[] listaEspecializacion) {
+	public void setListaEspecializacion(ListaAreaEspecializacion listaEspecializacion) {
 		this.listaEspecializacion = listaEspecializacion;
 	}
 }

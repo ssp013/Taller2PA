@@ -1,9 +1,9 @@
-public class ListaProyectoCient {
+public class ListaProyectosCient {
 	private Proyecto [] lp;
 	private int cantProyecto;
 	private int max;
 	
-	public ListaProyectoCient(int max) {
+	public ListaProyectosCient(int max) {
 		lp = new Proyecto [max];
 		this.cantProyecto =0;
 		this.max = max;

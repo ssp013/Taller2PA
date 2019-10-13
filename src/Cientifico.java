@@ -7,8 +7,8 @@ public class Cientifico {
 	private String ApellidoM;
 	private String Area;
 	private int CostoAsociado;
-	private ListaProyectoCient[] listaProyectos;
-	private ListaInstalacionesCient[] listaInstalaciones;
+	private ListaProyectosCient [] listaProyectos;
+	private ListaInstalacionesCient [] listaInstalaciones;
 	
 	public Cientifico(String Rut,String Nombre,String ApellidoP,String ApellidoM,
 			String Area,int CostoAsociado) {
@@ -66,28 +66,22 @@ public class Cientifico {
 	public void setCostoAsociado(int costoAsociado) {
 		CostoAsociado = costoAsociado;
 	}
-
-	public ListaProyectos[] getListaProyectos() {
+	public ListaProyectosCient[] getListaProyectos() {
 		return listaProyectos;
 	}
-
-	public void setListaProyectos(ListaProyectos[] listaProyectos) {
+	public void setListaProyectos(ListaProyectosCient[] listaProyectos) {
 		this.listaProyectos = listaProyectos;
 	}
-
-	public ListaInsta[] getListaInstalaciones() {
+	public ListaInstalacionesCient[] getListaInstalacionesCient() {
 		return listaInstalaciones;
 	}
-
-	public void setListaInstalaciones(ListaInsta[] listaInstalaciones) {
+	public void setListaInstalaciones(ListaInstalacionesCient[] listaInstalaciones) {
 		this.listaInstalaciones = listaInstalaciones;
 	}
-	@Override
-	public String toString() {
-		return "Cientifico [Rut=" + Rut + ", Nombre=" + Nombre + ", ApellidoP=" + ApellidoP + ", ApellidoM=" + ApellidoM
-				+ ", Area=" + Area + ", CostoAsociado=" + CostoAsociado + ", listaProyectos="
-				+ Arrays.toString(listaProyectos) + ", listaInstalaciones=" + Arrays.toString(listaInstalaciones) + "]";
-	}
+
+
+
+
 	
 	
 

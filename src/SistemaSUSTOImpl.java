@@ -7,15 +7,17 @@ import ucn.*;
  * @author TomasSandoval Sebastian Sanchez
  */
 public class SistemaSUSTOImpl implements SistemaSUSTO {
+	
     private ListaCientificos listaCientificos;
     private ListaDptos listaDptos;
     private ListaProyectos listaProyectos;
-
     private ListaInsta listaInsta;
     private ListaIngresos listaIngresos;
     private ListaSalidas listaSalidas;
 	private String dateFormat;
-	
+	private ListaInstalacionDepartamento listaInstalacionDepartamento;
+	private ListaAreaEspecializacion listaAreaEspecializacion;
+
 	@Override
 	public boolean CrearInstalacion(String NombreInstalacion, int CantidadDptos, String[] listaDptos,
 			int[] listaCapacidades) {
@@ -62,7 +64,7 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 	}
 	@Override
 	public boolean ContratarCientifico(String rut, String nombre, String apellidoP, String apellidoM, String AreaEspecializacion,
-			int costoAsociado, ListaProyectoCient [] listaProyectoCient, String dpto, String instalacion) {
+			int costoAsociado,ListaProyectosCient listaProyectoCientificoIngresado, String dpto, String instalacion) {
 		boolean contratar = false;
 		//Verificar si existe o no el cientifico:
 		Cientifico CientificoBuscado = listaCientificos.buscarCientifico(rut);
@@ -73,11 +75,38 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 			if(InstalacionBuscada != null) {
 				//entonces tenemos la instalacion:
 				//recorro ahora elm depto:
+				
 				Departamento departamentoBuscado = listaDptos.buscarDpto(dpto);
 				if(departamentoBuscado!=null) {
 					//puedo verficar q si esta ese departamento
-					//Verificamos si existe o no sus proyectos, debemos recprrer su lista.
-					listaProyectoCient.
+					//Verificamos si existe o no sus proyectos, debemos recorrer su lista.
+					for(int l =0;l<listaProyectoCientificoIngresado.getCantProyecto();l++) {
+						Proyecto proyectoCientifico = listaProyectoCientificoIngresado.getProyectoI(l);
+						String CodigoProyectoCientifico = proyectoCientifico.getCodigoProyecto();
+						Proyecto proyectoEncontrado = listaProyectos.buscarProyecto(CodigoProyectoCientifico);
+						if(proyectoEncontrado!=null) {
+							String DeptoResponsableProyectoCientifico = proyectoEncontrado.getDptoResponsable();
+							Departamento depto1 = listaDptos.buscarDpto(DeptoResponsableProyectoCientifico);
+							ListaInstalacionDepartamento listaInstalaciones = depto1.getListaInstalacionDepartamento();
+							Instalaciones instalacionEncontrada = listaInstalaciones.buscarInstaDepto(instalacion);
+							if(instalacionEncontrada!=null) {
+								if(instalacionEncontrada.getNombreInstalacion().equals(instalacion) && DeptoResponsableProyectoCientifico.equals(dpto)) {
+									//Puedo contratar al cientidico , pero debo veri
+									//revisar area especializacion y el costo y presupuesto.
+									if(proyectoEncontrado.getPresupuestoTotal() >= costoAsociado) {
+										ListaAreaEspecializacion  listaAreaEspecializacion = proyectoEncontrado.getListaEspecializacion();
+										AreaEspecializacion AreaEncontrada = listaAreaEspecializacion.buscarEspecializacion(AreaEspecializacion);
+										if(AreaEncontrada!=null) {
+											//Creamos al cientifico.
+											Cientifico CientificoContrado = new Cientifico(rut,nombre,apellidoP,apellidoM,AreaEspecializacion, costoAsociado);
+											listaProyectoCient.
+										}
+									}
+									
+								}
+							}
+						}
+					}
 				}
 			}
 			

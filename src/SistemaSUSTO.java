@@ -6,7 +6,7 @@ public interface SistemaSUSTO {
 	public boolean ReasignarCientifico(String OpcionCambio);
 	public boolean isValid(String dateStr);
 	boolean ContratarCientifico(String rut, String nombre, String apellidoP, String apellidoM,
-			String AreaEspecializacion, int costoAsociado, ListaProyectoCient[] listaProyectoCient, String dpto,
+			String AreaEspecializacion, int costoAsociado, ListaProyectosCient listaProyectoCient, String dpto,
 			String instalacion);
 }
  

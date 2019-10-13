@@ -1,14 +1,15 @@
 
-public class ListaDptos {
+public class ListaDepartamentoInstalacion {
+
 	private Departamento [] ld;
 	private int cantDpto;
 	private int max;
-	public ListaDptos(int max) {
+	public ListaDepartamentoInstalacion(int max) {
 		this.ld = new Departamento[max];
 		this.cantDpto =0;
 		this.max = max;
 	}
-	public boolean ingresarDpto(Departamento depto) {
+	public boolean ingesarDptoInstalacion(Departamento depto) {
 		if(this.cantDpto < this.max) {
 			ld[this.cantDpto] = depto;
 			cantDpto++;
@@ -17,7 +18,7 @@ public class ListaDptos {
 			return false;
 		}
 	}
-	public Departamento buscarDpto(String NombreDepto) {
+	public Departamento buscarDptoInstalacion(String NombreDepto) {
 		int k;
 		for(k=0;k<this.cantDpto;k++) {
 			if(ld[k].getNombreDpto().equals(NombreDepto)) {
@@ -30,14 +31,14 @@ public class ListaDptos {
 			return ld[k];
 		}
 	}
-	public Departamento getDepartamento(int i) {
+	public Departamento getDepartamentoInstalacion(int i) {
 		if(i>=0 && i<cantDpto) {
 			return ld[i];	
 		}else {
 			return null;
 		}
 	}
-	public int getCantDptos() {
+	public int getCantDptosInstalacion() {
 		return this.cantDpto;
 	}
 	public String toString() {
@@ -47,4 +48,5 @@ public class ListaDptos {
 		}
 		return r;
 	}
+
 }
