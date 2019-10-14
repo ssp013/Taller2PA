@@ -51,6 +51,21 @@ public class App {
 	   catch (InputMismatchException e)
 	   {
 	    sc.next();
+	    System.out.print("Error: Ingrese nuevamente : ");
+	   }
+	  }
+	 }
+	public static String validarOpcionString()
+	 {
+	  while (true)
+	  {
+	   try
+	   {
+	    return sc.nextLine();
+	   }
+	   catch (InputMismatchException e)
+	   {
+	    sc.next();
 	    System.out.print("Error ingrese una opción! ");
 	   }
 	  }
@@ -86,46 +101,62 @@ public class App {
 	public static void desplegarMenuCrearNuevasEntidades() {
 		StdOut.println("1. Crear Instalación \n2. Crear Departamento \n3. Contratar Científico \n4.Salir ");
 	}
+	public static String [] ingresarProyectos() {
+		
+	}
 	public static void contratarCientificos(SistemaSUSTO sistema) {
-		StdOut.println("Ingrese el rut del cientifico: ");
+		StdOut.println("Ingrese el rut del cientifico (XX.XXX.XXX-X): ");
 		String rut = StdIn.readString();
-		boolean respuesta = validarRut(rut);
-		if(respuesta) {
-			StdOut.println("es un rut");
-		}else {
-			StdOut.println("No es un Rut");
+		boolean respuesta=validarRut(rut);
+		while(respuesta != true) {
+			StdOut.println("Ingrese el rut del cientifico: ");
+			rut = StdIn.readString();
+			respuesta=validarRut(rut);
 		}
+		StdOut.println("Ingrese el nombre del cientifico :");
+		String nombre = StdIn.readString();
+		StdOut.println("Ingrese el apellido paterno del cientifico : ");
+		String apellidoP = StdIn.readString();
+		StdOut.println("Ingrese el apellido materno del cientifico: ");
+		String apellidoM = StdIn.readString();
+		StdOut.println("Ingrese su área de especialización:");
+		String AreaEspecializacion = StdIn.readString();
+		StdOut.println("Ingrese el su costo asociado:  ");
+		int costoAsociado = validarOpcion();
+		StdOut.println("Ingrese el departamento que se le asiganará a "+nombre+" "+apellidoP+" : ");
+		String dpto = StdIn.readString();
+		StdOut.println("Ingrese la instalación que se le asiganará a "+nombre+" "+apellidoP+" : ");
+		String instalacion = StdIn.readString();
+		//Solicitar los proyectos a los cuáles se asignará:
+		listaProyectoCient l = new listaProyectoCient
 		
-		
-		//sistema.ContratarCientifico(rut, nombre, apellidoP, apellidoM, AreaEspecializacion, costoAsociado, listaProyectoCient, dpto, instalacion);
+
+		sistema.ContratarCientifico(rut, nombre, apellidoP, apellidoM, AreaEspecializacion, costoAsociado, listaProyectoCient, dpto, instalacion);
 	}
 	public static void menuCrearNuevasEntidades(SistemaSUSTO sistema) throws IOException {
 		desplegarMenuCrearNuevasEntidades();
         StdOut.println("Ingrese una opción ");
-        int op = validarOpcion();
-        while(op!=4){
-            switch(op){
+        int opcion = validarOpcion();
+        while(opcion!=4){
+            switch(opcion){
                 case 1:
-                	//Cargar archivo.
-                	
+                	StdOut.println("Hola");
                 break;
                 case 2:
-                	//Creamos nuevas entidades.
-                	
+                	StdOut.println("Hola");
                 break;
                 case 3:
                 	contratarCientificos(sistema);
                 break;
                 case 4:
-                
+                	StdOut.println("Salir");
                 break;
+
             }
             desplegarMenuCrearNuevasEntidades();
-            StdOut.println("Ingrese una opción ");
-            op = validarOpcion();
-        }	
+            opcion = validarOpcion();
+        }
 	}
-	
 	public static void menu(SistemaSUSTO sistema) throws IOException {
         desplegarMenu();
         StdOut.println("Ingrese una opción ");
@@ -136,7 +167,7 @@ public class App {
                 	cargarInstalaciones(sistema);
                 break;
                 case 2:
-                	cargarInstalaciones(sistema);
+                	menuCrearNuevasEntidades(sistema);
                 break;
                 case 3:
                 	cargarInstalaciones(sistema);
@@ -169,5 +200,4 @@ public class App {
 		}
 		menu(sistema);
 	}
-
 }

@@ -17,6 +17,7 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 	private String dateFormat;
 	private ListaInstalacionDepartamento listaInstalacionDepartamento;
 	private ListaAreaEspecializacion listaAreaEspecializacion;
+	private ListaProyectosCient listaProyectosCient;
 
 	@Override
 	public boolean CrearInstalacion(String NombreInstalacion, int CantidadDptos, String[] listaDptos,
