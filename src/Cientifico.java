@@ -7,8 +7,8 @@ public class Cientifico {
 	private String ApellidoM;
 	private String Area;
 	private int CostoAsociado;
-	private ListaProyectosCient [] listaProyectos;
-	private ListaInstalacionesCient [] listaInstalaciones;
+	private ListaProyectosCient  listaProyectos;
+	private ListaInstalacionesCient  listaInstalaciones;
 	
 	public Cientifico(String Rut,String Nombre,String ApellidoP,String ApellidoM,
 			String Area,int CostoAsociado) {
@@ -66,16 +66,16 @@ public class Cientifico {
 	public void setCostoAsociado(int costoAsociado) {
 		CostoAsociado = costoAsociado;
 	}
-	public ListaProyectosCient[] getListaProyectos() {
+	public ListaProyectosCient getListaProyectos() {
 		return listaProyectos;
 	}
-	public void setListaProyectos(ListaProyectosCient[] listaProyectos) {
+	public void setListaProyectos(ListaProyectosCient listaProyectos) {
 		this.listaProyectos = listaProyectos;
 	}
-	public ListaInstalacionesCient[] getListaInstalacionesCient() {
+	public ListaInstalacionesCient getListaInstalacionesCient() {
 		return listaInstalaciones;
 	}
-	public void setListaInstalaciones(ListaInstalacionesCient[] listaInstalaciones) {
+	public void setListaInstalaciones(ListaInstalacionesCient listaInstalaciones) {
 		this.listaInstalaciones = listaInstalaciones;
 	}
 

@@ -130,97 +130,49 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 		return contratar;
 	}
 	@Override
-	public boolean CargarInstalaciones(ArchivoEntrada archivoInstalaciones) throws IOException  {
+	public boolean CargarInstalaciones(String nombreInstalacion,int cantDepartamentos,ListaDepartamentoInstalacion listaNuevaDI) {
+		boolean resultado = false;
+		Instalaciones instaNueva = new Instalaciones(nombreInstalacion,cantDepartamentos);
+		resultado = listaInsta.ingresarInsta(instaNueva);
+		instaNueva.setListaDepartamentoInstalacion(listaNuevaDI);
+		return resultado;
+	}
+	@Override
+	public boolean CargarProyectos(String CodigoProyecto,String NombreProyecto,int PresupuestoTotal,String DptoResponsable,int CantAreasEspecializacion,ListaAreaEspecializacion listaEspecializacion ) {
 		boolean respuesta = false;
-		while(!archivoInstalaciones.isEndFile()){
-			Registro regEnt = archivoInstalaciones.getRegistro();
-			String nombreInstalacion = regEnt.getString(); 
-			int cantDepartamentos =  regEnt.getInt();
-			Instalaciones instaNueva = new Instalaciones(nombreInstalacion,cantDepartamentos);
-			listaInsta.ingresarInsta(instaNueva);
-			ListaDepartamentoInstalacion listaNuevaDI = new ListaDepartamentoInstalacion(cantDepartamentos);
-			for(int i=0;i<cantDepartamentos;i++) {
-				String depto1 = regEnt.getString();
-				int capacidad = regEnt.getInt();
-				int presupuesto = regEnt.getInt();
-				Departamento DeptoBuscado = listaDptos.buscarDpto(depto1);
-				if(DeptoBuscado == null) {//No existe, lo agrego
-					Departamento deptoAgregar = new Departamento(depto1,capacidad,presupuesto);
-					listaNuevaDI.ingesarDptoInstalacion(deptoAgregar);
-					if(listaDptos.ingresarDpto(deptoAgregar)) {
-						respuesta = true;
-					}
-				}else {
-					int preObtenido = DeptoBuscado.getPresupuesto();
-					int cap = DeptoBuscado.getCapacidadDpto();
-					int sumadoPresupuesto = preObtenido + presupuesto;
-					int capa2 = cap+capacidad;
-					DeptoBuscado.setPresupuesto(sumadoPresupuesto);
-					DeptoBuscado.setCapacidadDpto(capa2);
-					respuesta= true;
-					listaNuevaDI.ingesarDptoInstalacion(DeptoBuscado);
-				}
-				
-			}
-		}
-		archivoInstalaciones.close();
+		Proyecto proyectoNuevo = new Proyecto(CodigoProyecto, NombreProyecto, PresupuestoTotal, DptoResponsable, CantAreasEspecializacion, listaEspecializacion);
+		respuesta = listaProyectos.ingresarProyecto(proyectoNuevo);
+		proyectoNuevo.setListaEspecializacion(listaEspecializacion);
 		return respuesta;
 	}
 	@Override
-	public boolean CargarProyecto(ArchivoEntrada archivoProyecto) throws IOException {
+	public boolean CargarCientifico(String Rut, String Nombre,String  ApellidoP, String ApellidoM, String Area, int CostoAsociado){
 		boolean respuesta = false;
-		while(!archivoProyecto.isEndFile()){
-			Registro regEnt = archivoProyecto.getRegistro();
-			
-			String CodigoProyecto = regEnt.getString();
-			String NombreProyecto = regEnt.getString();
-			int PresupuestoTotal = regEnt.getInt();
-			String DptoResponsable = regEnt.getString();
-			int  CantAreasEspecializacion = regEnt.getInt();
-			ListaAreaEspecializacion  listaEspecializacion = new ListaAreaEspecializacion(CantAreasEspecializacion);
-			for(int i =0; i<CantAreasEspecializacion;i++) {
-				String areas = regEnt.getString();
-				AreaEspecializacion ObjetoArea = new AreaEspecializacion(areas);				
-				boolean realizado = listaEspecializacion.ingresarEspecializacion(ObjetoArea);
-			}
-			Proyecto proyectoNuevo = new Proyecto(CodigoProyecto, NombreProyecto, PresupuestoTotal, DptoResponsable, CantAreasEspecializacion, listaEspecializacion);
-			Proyecto proyectoBuscar = listaProyectos.buscarProyecto(CodigoProyecto);
-			if(proyectoBuscar == null) {
-				listaProyectos.ingresarProyecto(proyectoNuevo);
-			}
+		Cientifico CientificoCreado = new Cientifico(Rut, Nombre, ApellidoP, ApellidoM, Area, CostoAsociado);
+		respuesta = listaCientificos.ingresarCientifico(CientificoCreado);
+		if(respuesta) {
+			ListaProyectosCient listaProyectosC = new ListaProyectosCient(10);
+			ListaInstalacionesCient listaInstalacionesC = new ListaInstalacionesCient(10);
+			CientificoCreado.setListaInstalaciones(listaInstalacionesC);
+			CientificoCreado.setListaProyectos(listaProyectosC);	
 		}
-		archivoProyecto.close();
 		return respuesta;
-
 	}
 	@Override
-	public boolean CargarCientifico(ArchivoEntrada archivoCientifico) throws IOException {
-		boolean respuesta = false;
-		while(!archivoCientifico.isEndFile()){
-			Registro regEnt = archivoCientifico.getRegistro();
-			String Rut = regEnt.getString();
-			String Nombre = regEnt.getString();
-			String ApellidoP = regEnt.getString();
-			String ApellidoM = regEnt.getString();
-			String Area = regEnt.getString();
-			int CostoAsociado =  regEnt.getInt();
-			Cientifico CientificoCreado = new Cientifico(Rut, Nombre, ApellidoP, ApellidoM, Area, CostoAsociado);
-			Cientifico CientificoBuscado = listaCientificos.buscarCientifico(Rut);
-			if(CientificoBuscado == null) {
-				boolean resp =listaCientificos.ingresarCientifico(CientificoCreado);
-				respuesta = true;
-			}
-		}
-		archivoCientifico.close();
-		//FUNCIONAAAAAA!! Borrar
-		for(int i =0;i<listaCientificos.getCantCientificos();i++) {
-			StdOut.println(listaCientificos.getCientificoI(i).getRut());
-		}
-		
-		return respuesta;
-	}
-	
-
-	
+    public ListaProyectos returnListaProyectos(){
+        return listaProyectos;
+    }
+	@Override
+    public ListaInsta returnListaInsta(){
+        return listaInsta;
+    }
+	@Override
+    public ListaDptos returnListaDptos(){
+        return listaDptos;
+    }
+	@Override
+    public ListaCientificos returnListaCient(){
+        return listaCientificos;
+    }
 }
 

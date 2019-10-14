@@ -38,6 +38,9 @@ public class ListaProyectos {
 			return null;
 		}
 	}
+	public int getCantProyectos() {
+		return cantProyecto;
+	}
 	
 
 }

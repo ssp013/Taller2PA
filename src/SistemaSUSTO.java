@@ -11,9 +11,12 @@ public interface SistemaSUSTO {
 	public boolean ContratarCientifico(String rut, String nombre, String apellidoP, String apellidoM,
 			String AreaEspecializacion, int costoAsociado, ListaProyectosCient listaProyectoCient, String dpto,
 			String instalacion);
-	public boolean CargarInstalaciones(ArchivoEntrada archivoInstalaciones) throws IOException;
-	public boolean CargarProyecto(ArchivoEntrada archivoProyecto) throws IOException;
-	public boolean CargarCientifico(ArchivoEntrada archivoCientifico) throws IOException;
-	
+	public boolean CargarInstalaciones(String nombreInstalacion,int cantDepartamentos,ListaDepartamentoInstalacion listaNuevaDI);
+	public boolean CargarProyectos(String CodigoProyecto,String NombreProyecto,int PresupuestoTotal,String DptoResponsable,int CantAreasEspecializacion,ListaAreaEspecializacion listaEspecializacion );
+	public boolean CargarCientifico(String Rut, String Nombre,String  ApellidoP, String ApellidoM, String Area, int CostoAsociado);
+	public ListaProyectos returnListaProyectos();
+	public ListaInsta returnListaInsta();
+	public ListaDptos returnListaDptos();
+	public ListaCientificos returnListaCient();
 }
  

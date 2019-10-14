@@ -70,17 +70,61 @@ public class App {
 	   }
 	  }
 	 }
-	
-	public static void cargarTXT(SistemaSUSTO sistema) throws IOException {
+	public static void cargarTXTInstalaciones(SistemaSUSTO sistema) throws IOException {
 		ArchivoEntrada archivoInstalaciones = new ArchivoEntrada("Instalaciones.txt");
-		sistema.CargarInstalaciones(archivoInstalaciones);
+		while(!archivoInstalaciones.isEndFile()){
+			Registro regEnt = archivoInstalaciones.getRegistro();
+			String nombreInstalacion = regEnt.getString(); 
+			int cantDepartamentos =  regEnt.getInt();
+			ListaDepartamentoInstalacion listaNuevaDI = new ListaDepartamentoInstalacion(cantDepartamentos);
+			for(int i=0;i<cantDepartamentos;i++) {
+				String depto1 = regEnt.getString();
+				int capacidad = regEnt.getInt();
+				int presupuesto = regEnt.getInt();
+				Departamento NuevoDepartamento = new Departamento(depto1, capacidad, presupuesto);
+				listaNuevaDI.ingesarDptoInstalacion(NuevoDepartamento);
+			}
+			sistema.CargarInstalaciones(nombreInstalacion,cantDepartamentos,listaNuevaDI);
+		}
+		archivoInstalaciones.close();
+	}
+	public static void cargarTXTProyectos(SistemaSUSTO sistema) throws IOException {
 		ArchivoEntrada archivoProyecto = new ArchivoEntrada("Proyectos.txt");
-		sistema.CargarProyecto(archivoProyecto);
+		while(!archivoProyecto.isEndFile()){
+			Registro regEnt = archivoProyecto.getRegistro();
+			String CodigoProyecto = regEnt.getString();
+			String NombreProyecto = regEnt.getString();
+			int PresupuestoTotal = regEnt.getInt();
+			String DptoResponsable = regEnt.getString();
+			int  CantAreasEspecializacion = regEnt.getInt();
+			ListaAreaEspecializacion  listaEspecializacion = new ListaAreaEspecializacion(CantAreasEspecializacion);
+			for(int i =0; i<CantAreasEspecializacion;i++) {
+				String areas = regEnt.getString();
+				AreaEspecializacion ObjetoArea = new AreaEspecializacion(areas);				
+				boolean realizado = listaEspecializacion.ingresarEspecializacion(ObjetoArea);
+			}
+			sistema.CargarProyectos(CodigoProyecto,NombreProyecto,PresupuestoTotal,DptoResponsable,CantAreasEspecializacion,listaEspecializacion);
+		}
+		archivoProyecto.close();
+	}
+	public static void cargarTXTCientifico(SistemaSUSTO sistema) throws IOException {
 		ArchivoEntrada archivoCientifico = new ArchivoEntrada("Cientificos.txt");
-		sistema.CargarCientifico(archivoCientifico);
-		
-		
-		
+		while(!archivoCientifico.isEndFile()){
+			Registro regEnt = archivoCientifico.getRegistro();
+			String Rut = regEnt.getString();
+			String Nombre = regEnt.getString();
+			String ApellidoP = regEnt.getString();
+			String ApellidoM = regEnt.getString();
+			String Area = regEnt.getString();
+			int CostoAsociado =  regEnt.getInt();
+			sistema.CargarCientifico(Rut, Nombre, ApellidoP, ApellidoM, Area, CostoAsociado);
+		}
+		archivoCientifico.close();
+	}
+	public static void cargarTXT(SistemaSUSTO sistema) throws IOException {
+		cargarTXTInstalaciones(sistema);
+		cargarTXTProyectos(sistema);
+		cargarTXTCientifico(sistema);
 	}
 	public static void desplegarMenuCrearNuevasEntidades() {
 		StdOut.println("1. Crear Instalación \n2. Crear Departamento \n3. Contratar Científico \n4.Salir ");
@@ -118,6 +162,7 @@ public class App {
 			StdOut.println("Ingrese nombre proyecto proyecto N "+i+1+" :");
 			String nombreProyecto = StdIn.readString();
 			Proyecto p1 = new Proyecto(codigo, nombreProyecto, 0, null, 0, null);
+			Proyecto p2 = new Proyecto(nombreProyecto, nombreProyecto, i, nombreProyecto, i, null);
 			listaProyectoDelCientifico.ingresarProyecto(p1);
 		}
 		boolean resp = sistema.ContratarCientifico(rut, nombre, apellidoP, apellidoM, AreaEspecializacion, costoAsociado, listaProyectoDelCientifico, dpto, instalacion);
@@ -151,8 +196,59 @@ public class App {
             opcion = validarOpcion();
         }
 	}
+	public static void listadoProyectoPersonal(SistemaSUSTO sistema) {
+		ListaProyectos listaP = sistema.returnListaProyectos();
+		ListaCientificos listaC = sistema.returnListaCient();
+		for(int i=0;i<listaP.getCantProyectos();i++){
+			Proyecto proy = listaP.getProyectoI(i);
+			StdOut.println("Proyecto: "+proy.getNombreProyecto());
+			for(int j=0;j<listaC.getCantCientificos();j++){
+				Cientifico cient = listaC.getCientificoI(j);
+				String nombre = cient.getNombre();
+				String ApellidoP = cient.getApellidoP();
+				ListaProyectosCient LPC = cient.getListaProyectos();
+				for(int k=0;k<LPC.getCantProyecto();k++){
+					Proyecto proy1 = LPC.getProyectoI(k);
+					if(proy1.getNombreProyecto().equals(proy.getNombreProyecto())){
+						StdOut.println(nombre+" "+ApellidoP);
+					}
+				}
+			}
+		}
+	}
+	public static void ListadoPersonalInsta(SistemaSUSTO sistema){
+        ListaProyectos listaP = sistema.returnListaProyectos();
+        ListaCientificos listaC = sistema.returnListaCient();
+        ListaInsta ListaI = sistema.returnListaInsta();
+        for(int i=0;i<ListaI.CantInsta();i++){
+            Instalaciones insta = ListaI.getInstI(i);
+            StdOut.println("Instalacion: "+insta.getNombreInstalacion());
+            ListaDepartamentoInstalacion listaDepaIn = insta.getListaDepartamentoInstalacion();
+            for(int j=0;j<listaDepaIn.getCantDptosInstalacion();j++){
+                Departamento dep = listaDepaIn.getDepartamentoInstalacion(j);
+                StdOut.println("Departamento(s): "+dep.getNombreDpto());
+                for(int k=0;k<listaP.getCantProyectos();k++){
+                    Proyecto proy = listaP.getProyectoI(k);
+                    if(proy.getDptoResponsable().equals(dep.getNombreDpto())){
+                        StdOut.println("Proyecto(s): "+proy.getNombreProyecto());
+                        for(int l=0;l<listaC.getCantCientificos();l++){
+                            Cientifico cient = listaC.getCientificoI(l);
+                            ListaProyectosCient listaProyC = cient.getListaProyectos();
+                            for(int m=0;m<listaProyC.getCantProyecto();m++){
+                                Proyecto proy1 = listaProyC.getProyectoI(m);
+                                if(proy1.getNombreProyecto().equals(proy.getNombreProyecto())){
+                                    StdOut.println("Personal: "+cient.getNombre()+" "+cient.getApellidoP());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        } 
+    }	
 	public static void menu(SistemaSUSTO sistema) throws IOException {
-        desplegarMenu();
+        desplegarMenu(); 
         StdOut.println("Ingrese una opción ");
         int op = validarOpcion();
         boolean cargoTXT = false;
@@ -161,6 +257,8 @@ public class App {
                 case 1:
                 	cargoTXT = true;
                 	cargarTXT(sistema);
+                	listadoProyectoPersonal(sistema);
+                	ListadoPersonalInsta(sistema);
                 break;
                 case 2:
                 	if(cargoTXT == true) {
