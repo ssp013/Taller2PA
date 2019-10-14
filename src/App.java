@@ -124,7 +124,6 @@ public class App {
 		String dpto = StdIn.readString();
 		StdOut.println("Ingrese la instalación que se le asiganará a "+nombre+" "+apellidoP+" : ");
 		String instalacion = StdIn.readString();
-		
 		//Solicitar los proyectos a los cuáles se asignará:
 		StdOut.println("Ingrese la cantidad de proyectos de "+nombre+" "+apellidoP+" : ");
 		int n = validarOpcion();
@@ -137,7 +136,12 @@ public class App {
 			Proyecto p1 = new Proyecto(codigo, nombreProyecto, 0, null, 0, null);
 			listaProyectoDelCientifico.ingresarProyecto(p1);
 		}
-		sistema.ContratarCientifico(rut, nombre, apellidoP, apellidoM, AreaEspecializacion, costoAsociado, listaProyectoDelCientifico, dpto, instalacion);
+		boolean resp = sistema.ContratarCientifico(rut, nombre, apellidoP, apellidoM, AreaEspecializacion, costoAsociado, listaProyectoDelCientifico, dpto, instalacion);
+		if(resp) {
+			StdOut.println("Ingreso correcto ");
+		}else {
+			StdOut.println("Error! al contratar Científico");			
+		}
 	}
 	public static void menuCrearNuevasEntidades(SistemaSUSTO sistema) throws IOException {
 		desplegarMenuCrearNuevasEntidades();

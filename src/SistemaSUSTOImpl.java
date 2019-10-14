@@ -8,7 +8,7 @@ import ucn.*;
  */
 public class SistemaSUSTOImpl implements SistemaSUSTO {
 	
-    private ListaCientificos listaCientificos;
+	private ListaCientificos listaCientificos;
     private ListaDptos listaDptos;
     private ListaProyectos listaProyectos;
     private ListaInsta listaInsta;
@@ -76,7 +76,6 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 			if(InstalacionBuscada != null) {
 				//entonces tenemos la instalacion:
 				//recorro ahora elm depto:
-				
 				Departamento departamentoBuscado = listaDptos.buscarDpto(dpto);
 				if(departamentoBuscado!=null) {
 					//puedo verficar q si esta ese departamento
