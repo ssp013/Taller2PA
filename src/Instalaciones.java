@@ -2,6 +2,7 @@
 public class Instalaciones {
 	private String NombreInstalacion;
 	private int CantidadDptos;
+	private ListaDepartamentoInstalacion listaDepartamentoInstalacion;
 	public Instalaciones(String NombreInstalacion,int CantidadDptos) {
 		this.NombreInstalacion = NombreInstalacion;
 		this.CantidadDptos = CantidadDptos;
@@ -21,5 +22,12 @@ public class Instalaciones {
 	public String toString() {
 		return "Instalaciones [NombreInstalacion]: "+this.NombreInstalacion+", [CantidadDptos]: "+this.CantidadDptos;
 	}
+	public ListaDepartamentoInstalacion getListaDepartamentoInstalacion() {
+		return listaDepartamentoInstalacion;
+	}
+	public void setListaDepartamentoInstalacion(ListaDepartamentoInstalacion listaDepartamentoInstalacion) {
+		this.listaDepartamentoInstalacion = listaDepartamentoInstalacion;
+	}
+	
 }
  

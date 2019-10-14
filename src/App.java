@@ -70,32 +70,13 @@ public class App {
 	   }
 	  }
 	 }
-	public static void cargarInstalaciones(SistemaSUSTO sistema) throws IOException {
+	public static void cargarTXT(SistemaSUSTO sistema) throws IOException {
 		ArchivoEntrada archivoInstalaciones = new ArchivoEntrada("Instalaciones.txt");
-		
-		while(!archivoInstalaciones.isEndFile()){
-			Registro regEnt = archivoInstalaciones.getRegistro();
-			//Se separa el registro en los campos que lo constituyen
-			String nombreInstalacion = regEnt.getString(); 
-			StdOut.println(nombreInstalacion);
-			
-			int cantDepartamentos =  regEnt.getInt();
-			String[] ListaDepartamento = new String[cantDepartamentos];
-			int[] ListaCapacidad = new int[cantDepartamentos];
-			for(int i=0;i<cantDepartamentos;i++) {
-				String Departamento = regEnt.getString();
-				int capacidad = regEnt.getInt();
-				ListaDepartamento[i]=Departamento;
-				ListaCapacidad[i]=capacidad;				
-			}
-			for(int l=0;l<cantDepartamentos;l++){
-				StdOut.print(ListaDepartamento[l]+",");
-				StdOut.print(ListaCapacidad[l]);
-				StdOut.println("");
-			}
-			
-		}
-		archivoInstalaciones.close();
+		sistema.CargarInstalaciones(archivoInstalaciones);
+		ArchivoEntrada archivoProyecto = new ArchivoEntrada("Proyectos.txt");
+		sistema.CargarProyecto(archivoProyecto);
+		ArchivoEntrada archivoCientifico = new ArchivoEntrada("Cientificos.txt");
+		sistema.CargarCientifico(archivoCientifico);
 		
 	}
 	public static void desplegarMenuCrearNuevasEntidades() {
@@ -171,24 +152,43 @@ public class App {
         desplegarMenu();
         StdOut.println("Ingrese una opción ");
         int op = validarOpcion();
-        while(op!=6){
+        boolean cargoTXT = false;
+        while(op!=6){  	
             switch(op){
                 case 1:
-                	cargarInstalaciones(sistema);
+                	cargoTXT = true;
+                	cargarTXT(sistema);
                 break;
                 case 2:
-                	menuCrearNuevasEntidades(sistema);
+                	if(cargoTXT == true) {
+                		menuCrearNuevasEntidades(sistema);                		
+                	}else {
+                		StdOut.println("Debe cargar los arhivos txt!");
+                	}
                 break;
                 case 3:
-                	cargarInstalaciones(sistema);
+                	if(cargoTXT == true) {
+                		menuCrearNuevasEntidades(sistema);                		
+                	}else {
+                		StdOut.println("Debe cargar los arhivos txt!");
+                	}
                 break;
                 case 4:
-                	cargarInstalaciones(sistema);
+                	if(cargoTXT == true) {
+                		menuCrearNuevasEntidades(sistema);                		
+                	}else {
+                		StdOut.println("Debe cargar los arhivos txt!");
+                	}
                 break;
                 case 5:
-                	cargarInstalaciones(sistema);
+                	if(cargoTXT == true) {
+                		menuCrearNuevasEntidades(sistema);                		
+                	}else {
+                		StdOut.println("Debe cargar los arhivos txt!");
+                	}
                 break;
                 case 6:
+                	StdOut.println("Muchas gracias por ocupar sistema SUSTO ");
                 break;
             }
             desplegarMenu();
