@@ -8,11 +8,12 @@ public interface SistemaSUSTO {
 	public boolean RegistrarSalida(String Instalacion, String rutCientifico, String fecha, String hora);
 	public boolean ReasignarCientifico(String OpcionCambio);
 	public boolean isValid(String dateStr);
-	boolean ContratarCientifico(String rut, String nombre, String apellidoP, String apellidoM,
+	public boolean ContratarCientifico(String rut, String nombre, String apellidoP, String apellidoM,
 			String AreaEspecializacion, int costoAsociado, ListaProyectosCient listaProyectoCient, String dpto,
 			String instalacion);
-	boolean CargarInstalaciones(ArchivoEntrada archivoInstalaciones) throws IOException;
-	boolean CargarProyecto(ArchivoEntrada archivoProyecto) throws IOException;
-	boolean CargarCientifico(ArchivoEntrada archivoCientifico) throws IOException;
+	public boolean CargarInstalaciones(ArchivoEntrada archivoInstalaciones) throws IOException;
+	public boolean CargarProyecto(ArchivoEntrada archivoProyecto) throws IOException;
+	public boolean CargarCientifico(ArchivoEntrada archivoCientifico) throws IOException;
+	
 }
  

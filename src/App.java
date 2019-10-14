@@ -70,6 +70,7 @@ public class App {
 	   }
 	  }
 	 }
+	
 	public static void cargarTXT(SistemaSUSTO sistema) throws IOException {
 		ArchivoEntrada archivoInstalaciones = new ArchivoEntrada("Instalaciones.txt");
 		sistema.CargarInstalaciones(archivoInstalaciones);
@@ -77,6 +78,8 @@ public class App {
 		sistema.CargarProyecto(archivoProyecto);
 		ArchivoEntrada archivoCientifico = new ArchivoEntrada("Cientificos.txt");
 		sistema.CargarCientifico(archivoCientifico);
+		
+		
 		
 	}
 	public static void desplegarMenuCrearNuevasEntidades() {

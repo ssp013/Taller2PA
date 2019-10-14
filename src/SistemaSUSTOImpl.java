@@ -8,16 +8,16 @@ import ucn.*;
  * @author TomasSandoval Sebastian Sanchez
  */
 public class SistemaSUSTOImpl implements SistemaSUSTO {
-	public ListaCientificos listaCientificos;
-	public ListaDptos listaDptos;
-	public ListaProyectos listaProyectos;
-	public ListaInsta listaInsta;
-	public ListaIngresos listaIngresos;
-	public ListaSalidas listaSalidas;
-	public String dateFormat;
-	public ListaInstalacionDepartamento listaInstalacionDepartamento;
-	public ListaAreaEspecializacion listaAreaEspecializacion;
-	public ListaProyectosCient listaProyectosCient;
+	private ListaCientificos listaCientificos;
+	private ListaDptos listaDptos;
+	private ListaProyectos listaProyectos;
+	private ListaInsta listaInsta;
+	private ListaIngresos listaIngresos;
+	private ListaSalidas listaSalidas;
+	private String dateFormat;
+	private ListaInstalacionDepartamento listaInstalacionDepartamento;
+	private ListaAreaEspecializacion listaAreaEspecializacion;
+	private ListaProyectosCient listaProyectosCient;
 	
     public SistemaSUSTOImpl(){//Son listas globales debemos inicializarlas:
     	listaInsta = new ListaInsta(1000);
@@ -212,8 +212,15 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 			}
 		}
 		archivoCientifico.close();
+		//FUNCIONAAAAAA!! Borrar
+		for(int i =0;i<listaCientificos.getCantCientificos();i++) {
+			StdOut.println(listaCientificos.getCientificoI(i).getRut());
+		}
+		
 		return respuesta;
 	}
+	
 
+	
 }
 
