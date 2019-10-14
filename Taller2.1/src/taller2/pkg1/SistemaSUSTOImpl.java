@@ -19,11 +19,15 @@ public class SistemaSUSTOImpl {
         
     }        
          
-    public boolean crearInstalacion(String nombreInst, int cantDptos, String listaDptos,int listaCapacidades){
-        
+    public boolean crearInstalacion(String NombreInstalaciom, int CantidadDptos){
+        boolean creado = false;
+        Instalaciones insta = new Instalaciones(NombreInstalacion, CantidadDptos);
+        boolean f = listaInsta.ingresarInsta(insta);
+        if(f){
+            creado = true;
+        }
+        return creado; 
     }
-    
-    
     
     public boolean registrarIngreso(String instalacion,String rutCientifico,String fecha,String hora, ListaInstalacionesCient listaInstalacionesCient){
         boolean ingresoB = false;
@@ -82,9 +86,6 @@ public class SistemaSUSTOImpl {
         return salidaB;
     }
     
-
-   
-    
     public boolean reasignarCientificoProyecto(String rutCientifico, String codProyectoA, String codProyectoN, ListaProyectosCient listaProyectosCient){
         boolean ingreso = false;
         for(int i=0;i<listaCientificos.getCantCientificos;i++){
@@ -117,10 +118,7 @@ public class SistemaSUSTOImpl {
         }
         return ingreso;
     }
-    
-    
-    
-    
+   
     public boolean reasignarCientificoInstalacion(String rutCientifico, String nomInstalacionA, String nomInstalacionN, ListaInstalacionesCient listaInstalacionesCient){
         boolean ingreso = false;
         for(int i=0;i<listaCientificos.getCantCientificos();i++){
@@ -147,9 +145,31 @@ public class SistemaSUSTOImpl {
         return ingreso;
     }
     
+    public boolean crearDpto(String nomDpto,int capacidad, int presupuesto){
+        boolean resp = false;
+        boolean dpto = listaDpto.buscarDpto(nomDpto);
+        if(dpto){
+        } 
+        else {
+            Departamento dpto1 = new Departamento(nomDpto,capacidad,presupuesto);
+            listaDptos.ingresarDpto(dpto1);
+            resp = true;
+        }
+        return resp;
+    }
     
-    
-    
+    public ListaProyectos returnListaProyectos(){
+        return listaProyectos;
+    }
+    public ListaInsta returnListaInsta(){
+        return listaInsta;
+    }
+    public ListaDptos returnListaDptos(){
+        return listaDptos;
+    }
+    public ListaCientificos returnListaCient(){
+        return listaCientificos;
+    }
     
     
     
