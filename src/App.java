@@ -101,9 +101,6 @@ public class App {
 	public static void desplegarMenuCrearNuevasEntidades() {
 		StdOut.println("1. Crear Instalación \n2. Crear Departamento \n3. Contratar Científico \n4.Salir ");
 	}
-	public static String [] ingresarProyectos() {
-		
-	}
 	public static void contratarCientificos(SistemaSUSTO sistema) {
 		StdOut.println("Ingrese el rut del cientifico (XX.XXX.XXX-X): ");
 		String rut = StdIn.readString();
@@ -127,11 +124,20 @@ public class App {
 		String dpto = StdIn.readString();
 		StdOut.println("Ingrese la instalación que se le asiganará a "+nombre+" "+apellidoP+" : ");
 		String instalacion = StdIn.readString();
-		//Solicitar los proyectos a los cuáles se asignará:
-		listaProyectoCient l = new listaProyectoCient
 		
-
-		sistema.ContratarCientifico(rut, nombre, apellidoP, apellidoM, AreaEspecializacion, costoAsociado, listaProyectoCient, dpto, instalacion);
+		//Solicitar los proyectos a los cuáles se asignará:
+		StdOut.println("Ingrese la cantidad de proyectos de "+nombre+" "+apellidoP+" : ");
+		int n = validarOpcion();
+		ListaProyectosCient listaProyectoDelCientifico = new ListaProyectosCient(n);
+		for(int i=0;i<n;i++) {
+			StdOut.println("Ingrese código proyecto proyecto N "+i+1+" :");
+			String codigo = StdIn.readString();
+			StdOut.println("Ingrese nombre proyecto proyecto N "+i+1+" :");
+			String nombreProyecto = StdIn.readString();
+			Proyecto p1 = new Proyecto(codigo, nombreProyecto, 0, null, 0, null);
+			listaProyectoDelCientifico.ingresarProyecto(p1);
+		}
+		sistema.ContratarCientifico(rut, nombre, apellidoP, apellidoM, AreaEspecializacion, costoAsociado, listaProyectoDelCientifico, dpto, instalacion);
 	}
 	public static void menuCrearNuevasEntidades(SistemaSUSTO sistema) throws IOException {
 		desplegarMenuCrearNuevasEntidades();
