@@ -19,7 +19,7 @@ public class SistemaSUSTOImpl {
         
     }        
          
-    public boolean crearInstalacion(String NombreInstalaciom, int CantidadDptos){
+    public boolean crearInstalacion(String NombreInstalacion, int CantidadDptos){
         boolean creado = false;
         Instalaciones insta = new Instalaciones(NombreInstalacion, CantidadDptos);
         boolean f = listaInsta.ingresarInsta(insta);
@@ -149,6 +149,7 @@ public class SistemaSUSTOImpl {
         boolean resp = false;
         boolean dpto = listaDpto.buscarDpto(nomDpto);
         if(dpto){
+            return resp;
         } 
         else {
             Departamento dpto1 = new Departamento(nomDpto,capacidad,presupuesto);
@@ -161,12 +162,15 @@ public class SistemaSUSTOImpl {
     public ListaProyectos returnListaProyectos(){
         return listaProyectos;
     }
+    
     public ListaInsta returnListaInsta(){
         return listaInsta;
     }
+    
     public ListaDptos returnListaDptos(){
         return listaDptos;
     }
+    
     public ListaCientificos returnListaCient(){
         return listaCientificos;
     }
