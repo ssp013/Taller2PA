@@ -60,6 +60,35 @@ public class app {
                 }
             }
         }
+    } 
+    public void CostosPorProyecto(SistemaSUSTO sistema){
+        ListaProyectos listaP = sistema.returnListaProyectos();
+        ListaCientificos listaC = sistema.returnListaCient();
+        StdOut.println("Ingrese codigo del proyecto: ");
+        String code = StdIn.readString();
+        (for int i=0;i<listaP.getCantProyectos;i++){
+            Proyecto proy = listaP.getProyectoI(i);
+            if(proy.getCodigoProyecto().equals(code)){
+                //validamos que el proyecto existe
+                StdOut.println("Proyecto "+proy.getNombreProyecto()+" Presupuesto Total: "+proy.getPresupuestoTotal());
+                for(int j=0;j<listaC.getCantCientificos();j++){
+                    //recorro la lista general de cientificos y saco su lista de proyectos
+                    Cientifico cient = listaC.getCientificoI(j);
+                    ListaProyectosCient lista = cient.getListaProyectosCient();
+                    for(int k=0;k<lista.getCantProyectosCient();k++){
+                        //veo que cientificos trabajan en este proyecto e imprimo su nombre y costo asociado
+                        Proyecto proy1 = lista.getProyectoCientI(k);
+                        if(proy1.getCodigoProyecto().equals(code)){
+                            StdOut.println("cientifico: "+cient.getNombre()+", costo Asociado: "+cient.getCostoAsociado());
+                        }
+                    }
+                }
+            }
+            else{
+                StdOut.println("Proyecto no encontrado");
+            }
+        }
+             
     }
     
     
