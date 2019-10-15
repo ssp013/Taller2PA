@@ -1,3 +1,0 @@
-pr1,proyecto1,150000,depto2,4,areaEspecificacion1,areaEspecificacion2,areaEspecificacion3,areaEspecificacion4
-pr2,proyecto2,750000,depto1,2,areaEspecificacion1,areaEspecificacion2
-pr3,proyecto3,950000,depto3,1,areaEspecificacion1
