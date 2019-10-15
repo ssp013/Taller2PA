@@ -2,7 +2,7 @@
 public class Departamento {
 	private String NombreDpto;
 	private int CapacidadDpto;
-	private ListaInstalacionDepartamento listaInstalacionDepartamento;
+	//private ListaInstalacionDepartamento listaInstalacionDepartamento;
 	private int presupuesto;
 	public Departamento(String NombreDpto,int CapacidadDpto,int presupuesto) {
 		this.NombreDpto = NombreDpto;
@@ -25,12 +25,12 @@ public class Departamento {
 	public void setCapacidadDpto(int capacidadDpto) {
 		CapacidadDpto = capacidadDpto;
 	}
-	public ListaInstalacionDepartamento getListaInstalacionDepartamento() {
+	/*public ListaInstalacionDepartamento getListaInstalacionDepartamento() {
 		return listaInstalacionDepartamento;
 	}
 	public void setListaInstalacionDepartamento(ListaInstalacionDepartamento listaInstalacionDepartamento) {
 		this.listaInstalacionDepartamento = listaInstalacionDepartamento;
-	}
+	}*/
 	public void setNombreDpto(String nombreDpto) {
 		NombreDpto = nombreDpto;
 	}

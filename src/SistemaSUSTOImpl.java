@@ -26,11 +26,27 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
     	listaProyectos = new ListaProyectos(1000);
     }	
 	@Override
-	public boolean CrearInstalacion(String NombreInstalacion, int CantidadDptos, String[] listaDptos,
-			int[] listaCapacidades) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean CrearInstalacion(String NombreInstalacion, int CantidadDptos,ListaDepartamentoInstalacion listaNuevaDepto){
+	    boolean creado = false;
+	    Instalaciones insta = new Instalaciones(NombreInstalacion, CantidadDptos);
+	    insta.setListaDepartamentoInstalacion(listaNuevaDepto);
+	    boolean f = listaInsta.ingresarInsta(insta);
+	    if(f){
+	        creado = true;
+	    }
+	    return creado; 
 	}
+	@Override
+    public boolean crearDpto(String nomDpto,int capacidad, int presupuesto){
+        boolean resp = false;
+        Departamento dpto = listaDptos.buscarDpto(nomDpto);
+        if(dpto==null) {
+        	Departamento deptoNuevo = new Departamento(nomDpto,capacidad,presupuesto);
+        	resp = listaDptos.ingresarDpto(deptoNuevo);
+        }
+        return resp;
+    }
+	
 	@Override
 	public boolean RegistrarIngreso(String Instalacion, String rutCientifico, String fecha, String hora) {
 		// TODO Auto-generated method stub
@@ -42,9 +58,29 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 		return false;
 	}
 	@Override
-	public boolean ReasignarCientifico(String OpcionCambio) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean reasignarCientificoProyecto(String rutCientifico, String codProyectoA, String codProyectoN, ListaProyectosCient listaProyectosCient){
+		boolean ingreso = false;
+        for(int i=0;i<listaCientificos.getCantCientificos();i++){
+            Cientifico cient = listaCientificos.getCientificoI(i);
+            if(cient.getRut().equals(rutCientifico)){
+                //verifico que el cientifico si esta en la lista de cientificos
+                for(int j=0;j<listaProyectosCient.getCantProyecto();j++){
+                    Proyecto proy = listaProyectosCient.getProyectoI(j);
+                    if(proy.getCodigoProyecto().equals(codProyectoA)){
+                        //verifico que el proyecto antiguo este en la lista de proyectos del cientifico
+                        for(int k=0;k<listaProyectos.getCantProyectos();k++){
+                            Proyecto proy1 = listaProyectos.getProyectoI(k);
+                            if(proy1.getCodigoProyecto().equals(codProyectoN)){
+                                //verifico que el proyecto nuevo este en la lista general de proyectos, osea que exista. En este momento estaria todo validado
+                                proy.setCodigoProyecto(codProyectoN);
+                                ingreso = true;       
+                            }
+                        }
+                    }
+                }
+            }         
+        }
+        return ingreso;
 	}
 	@Override
 	public boolean isValid(String dateStr) {

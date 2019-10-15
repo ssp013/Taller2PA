@@ -70,7 +70,8 @@ public class App {
 	   }
 	  }
 	 }
-	public static void cargarTXTInstalaciones(SistemaSUSTO sistema) throws IOException {
+	public static boolean cargarTXTInstalaciones(SistemaSUSTO sistema) throws IOException {
+		boolean resp = false;
 		ArchivoEntrada archivoInstalaciones = new ArchivoEntrada("Instalaciones.txt");
 		while(!archivoInstalaciones.isEndFile()){
 			Registro regEnt = archivoInstalaciones.getRegistro();
@@ -84,11 +85,13 @@ public class App {
 				Departamento NuevoDepartamento = new Departamento(depto1, capacidad, presupuesto);
 				listaNuevaDI.ingesarDptoInstalacion(NuevoDepartamento);
 			}
-			sistema.CargarInstalaciones(nombreInstalacion,cantDepartamentos,listaNuevaDI);
+			resp = sistema.CargarInstalaciones(nombreInstalacion,cantDepartamentos,listaNuevaDI);
 		}
 		archivoInstalaciones.close();
+		return resp;
 	}
-	public static void cargarTXTProyectos(SistemaSUSTO sistema) throws IOException {
+	public static boolean cargarTXTProyectos(SistemaSUSTO sistema) throws IOException {
+		boolean resp = false;
 		ArchivoEntrada archivoProyecto = new ArchivoEntrada("Proyectos.txt");
 		while(!archivoProyecto.isEndFile()){
 			Registro regEnt = archivoProyecto.getRegistro();
@@ -103,11 +106,13 @@ public class App {
 				AreaEspecializacion ObjetoArea = new AreaEspecializacion(areas);				
 				boolean realizado = listaEspecializacion.ingresarEspecializacion(ObjetoArea);
 			}
-			sistema.CargarProyectos(CodigoProyecto,NombreProyecto,PresupuestoTotal,DptoResponsable,CantAreasEspecializacion,listaEspecializacion);
+			resp = sistema.CargarProyectos(CodigoProyecto,NombreProyecto,PresupuestoTotal,DptoResponsable,CantAreasEspecializacion,listaEspecializacion);
 		}
 		archivoProyecto.close();
+		return resp;
 	}
-	public static void cargarTXTCientifico(SistemaSUSTO sistema) throws IOException {
+	public static boolean cargarTXTCientifico(SistemaSUSTO sistema) throws IOException {
+		boolean resp = false;
 		ArchivoEntrada archivoCientifico = new ArchivoEntrada("Cientificos.txt");
 		while(!archivoCientifico.isEndFile()){
 			Registro regEnt = archivoCientifico.getRegistro();
@@ -117,14 +122,21 @@ public class App {
 			String ApellidoM = regEnt.getString();
 			String Area = regEnt.getString();
 			int CostoAsociado =  regEnt.getInt();
-			sistema.CargarCientifico(Rut, Nombre, ApellidoP, ApellidoM, Area, CostoAsociado);
+			resp = sistema.CargarCientifico(Rut, Nombre, ApellidoP, ApellidoM, Area, CostoAsociado);
 		}
 		archivoCientifico.close();
+		return resp;
 	}
-	public static void cargarTXT(SistemaSUSTO sistema) throws IOException {
-		cargarTXTInstalaciones(sistema);
-		cargarTXTProyectos(sistema);
-		cargarTXTCientifico(sistema);
+	public static boolean cargarTXT(SistemaSUSTO sistema) throws IOException {
+		boolean resp1,resp2,resp3;
+		resp1=cargarTXTInstalaciones(sistema);
+		resp2=cargarTXTProyectos(sistema);
+		resp3=cargarTXTCientifico(sistema);
+		if(resp1==true && resp2 ==true && resp3 == true) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	public static void desplegarMenuCrearNuevasEntidades() {
 		StdOut.println("1. Crear Instalación \n2. Crear Departamento \n3. Contratar Científico \n4.Salir ");
@@ -172,6 +184,11 @@ public class App {
 			StdOut.println("Error! al contratar Científico");			
 		}
 	}
+
+	
+	
+	
+	
 	public static void menuCrearNuevasEntidades(SistemaSUSTO sistema) throws IOException {
 		desplegarMenuCrearNuevasEntidades();
         StdOut.println("Ingrese una opción ");
@@ -179,10 +196,10 @@ public class App {
         while(opcion!=4){
             switch(opcion){
                 case 1:
-                	StdOut.println("Hola");
+                	CrearInstalacion(sistema);
                 break;
                 case 2:
-                	StdOut.println("Hola");
+                	CrearDpto(sistema);
                 break;
                 case 3:
                 	contratarCientificos(sistema);
@@ -247,7 +264,126 @@ public class App {
             
         } 
     }	
-	public static void menu(SistemaSUSTO sistema) throws IOException {
+    public static void ListadoPersonasDpto(SistemaSUSTO sistema){
+        ListaProyectos listaP = sistema.returnListaProyectos();
+        ListaCientificos listaC = sistema.returnListaCient();
+        ListaDptos ListaD = sistema.returnListaDptos();     
+        for(int i=0;i<ListaD.getCantDptos();i++){
+            Departamento dep = ListaD.getDepartamento(i);
+            StdOut.println("Departamento: "+dep.getNombreDpto());
+            for(int j=0;j<listaP.getCantProyectos();j++){
+                Proyecto proy = listaP.getProyectoI(j);
+                if(dep.getNombreDpto().equals(proy.getDptoResponsable())){
+                    StdOut.println("Proyecto(s): "+proy.getNombreProyecto());
+                    for(int k=0;k<listaC.getCantCientificos();k++){
+                        Cientifico cient = listaC.getCientificoI(k);
+                        ListaProyectosCient LPC = cient.getListaProyectos();
+                        for(int l=0;l<LPC.getCantProyecto();l++){
+                            Proyecto proy1 = LPC.getProyectoI(l);
+                            if(proy1.getNombreProyecto().equals(proy.getNombreProyecto())){
+                                StdOut.println("Personal: "+ cient.getNombre()+" "+cient.getApellidoP());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+	public static void desplegarMenuReportesDePersonalYCostos() {
+		StdOut.println("1. Listado de personal \n2. Listado de proyecto \n3.Costos por proyecto \n4.Horas trabajadas  \n5.Movimientos \n6.Salir  ");
+	}
+	public static void ElegirPorInstalacionODepto(SistemaSUSTO sistema) {
+		StdOut.println("1.Por instalación \n2. Por departamento");
+			int opcion = validarOpcion();
+			switch(opcion){
+	        case 1:
+	        	ListadoPersonalInsta(sistema);
+	        break;
+	        case 2:
+	        	ListadoPersonasDpto(sistema);
+	        break;
+	    }
+	}
+    public static void menuReportesDePersonalYCostos(SistemaSUSTO sistema) {
+    	desplegarMenuReportesDePersonalYCostos();
+        StdOut.println("Ingrese una opción ");
+        int opcion = validarOpcion();
+        while(opcion!=6){
+            switch(opcion){
+                case 1:
+                	ElegirPorInstalacionODepto(sistema);
+                break;
+                case 2:
+                	listadoProyectoPersonal(sistema);
+                break;
+                case 3:
+                	StdOut.println("Hola");
+                break;
+                case 4:
+                	StdOut.println("hola");
+                break;
+                case 5:
+                	StdOut.println("hola");
+                break;
+                case 6:
+                	StdOut.println("Salida con éxito!");
+                break;
+
+            }
+        	desplegarMenuReportesDePersonalYCostos();
+            opcion = validarOpcion();
+        }
+	}
+	public static void CrearInstalacion(SistemaSUSTO sistema) {
+		StdOut.println("Ingrese el nombre de la instalación:");
+		String NombreInstalacion = StdIn.readString();
+		ListaInsta listaInstalacionTraida = sistema.returnListaInsta();
+		Instalaciones instaEncontrada = listaInstalacionTraida.buscarInsta(NombreInstalacion);
+		if(instaEncontrada==null) {	
+			StdOut.println("Ingrese la cantidad de departamentos que tiene la instalación");
+			int CantidadDptos = validarOpcion();
+			ListaDepartamentoInstalacion listaNuevaDepto = new ListaDepartamentoInstalacion(CantidadDptos);
+			for(int i=0;i<CantidadDptos;i++) {
+				int re = i+1;
+				StdOut.println("Ingrese el nombre del departamento Nº"+re+" :");
+				String nombreDpto = StdIn.readString();
+				StdOut.println("Ingrese la capacidad del departamento:  ");
+				int CapacidadDpto = validarOpcion();
+				StdOut.println("Ingrese el presupuesto del departamento "+nombreDpto+" : ");
+				int presupuesto =validarOpcion();
+				Departamento depto = new Departamento(nombreDpto, CapacidadDpto, presupuesto);
+				ListaDptos listaDepartamentosglobal = sistema.returnListaDptos();
+				Departamento deptoEncontrado = listaDepartamentosglobal.buscarDpto(nombreDpto);
+				if(deptoEncontrado != null) {
+					listaNuevaDepto.ingesarDptoInstalacion(depto);				
+				}else {
+					StdOut.println("No existe el departamento"+nombreDpto+", primero debe crear Departamento!");
+				}
+			}
+			if(sistema.CrearInstalacion(NombreInstalacion, CantidadDptos,listaNuevaDepto)) {
+				StdOut.println("Ingreso correctamente!");
+				
+			}else {
+				StdOut.println("Ingreso incorrecto!");
+			}
+		}else {
+			StdOut.println("Ya existe la instalacion "+NombreInstalacion+"!");
+		}
+	}
+	public static void CrearDpto(SistemaSUSTO sistema) {
+		StdOut.println("Ingrese el nombre del departamento:");
+		String nomDpto = StdIn.readString();
+		StdOut.println("Ingrese la capacidad del departamento "+nomDpto+" :");
+		int capacidad = validarOpcion();
+		StdOut.println("Ingrese el presupuesto del departamento "+nomDpto+" :");
+		int presupuesto = validarOpcion();
+		if(sistema.crearDpto(nomDpto, capacidad, presupuesto)) {
+			StdOut.println("Departamento ingresado correctamente!");
+		}else {
+			StdOut.println("Departamento ya existe!");
+		}
+	}
+    public static void menu(SistemaSUSTO sistema) throws IOException {
         desplegarMenu(); 
         StdOut.println("Ingrese una opción ");
         int op = validarOpcion();
@@ -255,10 +391,14 @@ public class App {
         while(op!=6){  	
             switch(op){
                 case 1:
+                	boolean respTXT = false;
                 	cargoTXT = true;
-                	cargarTXT(sistema);
-                	listadoProyectoPersonal(sistema);
-                	ListadoPersonalInsta(sistema);
+                	respTXT=cargarTXT(sistema);
+                	if(respTXT) {
+                		StdOut.println("Datos cargados exitosamente");                		
+                	}else {
+                		StdOut.println("Revise la carpeta de los archivos TXT");
+                	}
                 break;
                 case 2:
                 	if(cargoTXT == true) {
@@ -283,7 +423,7 @@ public class App {
                 break;
                 case 5:
                 	if(cargoTXT == true) {
-                		menuCrearNuevasEntidades(sistema);                		
+                		menuReportesDePersonalYCostos(sistema);              		
                 	}else {
                 		StdOut.println("Debe cargar los arhivos txt!");
                 	}
