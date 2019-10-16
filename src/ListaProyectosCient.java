@@ -41,4 +41,27 @@ public class ListaProyectosCient {
 	public int getCantProyecto() {
 		return this.cantProyecto;
 	}
+	/*public boolean setearProyecto(String CodigoAntiguo,String CodigoNuevo,String nombreProyecto,int presupuestoTotal,String dptoResponsable,int  cantAreasEspecializacion,ListaAreaEspecializacion listaEspecializacion){//ingresar
+		
+		int k;
+		for(k=0;k<cantProyecto;k++) {
+			if(lp[k].getCodigoProyecto().equals(CodigoAntiguo)) {
+				break;
+			}
+		}
+		if(k==cantProyecto) {
+			return false;
+		}else {
+			lp[k].setCodigoProyecto(CodigoNuevo);
+			lp[k].setNombreProyecto(nombreProyecto);
+			lp[k].setPresupuestoTotal(presupuestoTotal);
+			lp[k].setDptoResponsable(dptoResponsable);
+			lp[k].setCantAreasEspecializacion(cantAreasEspecializacion);
+			lp[k].setListaEspecializacion(listaEspecializacion);
+			return true;
+			
+		}
+		
+	}*/
+
 }

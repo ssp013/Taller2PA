@@ -1,11 +1,8 @@
  /**
-  * Inserta un título en la clase descripción.
-  * Al ser el título obligatorio, si es nulo o vacío se lanzará
-  * una excepción.
-  *
-  * @param titulo El nuevo título de la descripción.
-  * @throws IllegalArgumentException Si titulo es null, está vacío o contiene sólo espacios.
-
+  * Aplicación general 
+  * @author  Sebatián Sánchez - Tomás Sandoval
+  * @param App.java
+  * @throws IllegalArgumentException
   */
 import ucn.*;
 import java.io.IOException;
@@ -18,7 +15,6 @@ import java.time.format.DateTimeFormatter;
 import java.text.ParseException;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
-
 public class App { 
 	static Scanner sc = new Scanner(System.in);
 	public static void desplegarMenu() {
@@ -593,7 +589,6 @@ public class App {
 		
 	}
 	public static void reasignarCientificoProyecto(SistemaSUSTO sistema) {
-		//(String rutCientifico, String codProyectoA, String codProyectoN, ListaProyectosCient listaProyectosCient)
 		StdOut.println("Ingrese el rut del cientifico (XX.XXX.XXX-X): ");
 		String rutCientifico = StdIn.readString();
 		boolean respuesta=validarRut(rutCientifico);
@@ -606,10 +601,30 @@ public class App {
 		String codProyectoA = StdIn.readString();
 		StdOut.println("Ingrese el código del proyecto nuevo:");
 		String codProyectoN= StdIn.readString();
-		
+		if(sistema.reasignarCientificoProyecto(rutCientifico, codProyectoA, codProyectoN)) {
+			StdOut.println("Reasignación correcta!");
+		}else {
+			StdOut.println("Reasignación incorrecta!");
+		}
 	}
 	public static void reasignarCientificoInstalacion(SistemaSUSTO sistema) {
-		
+		StdOut.println("Ingrese el rut del cientifico (XX.XXX.XXX-X): ");
+		String rutCientifico = StdIn.readString();
+		boolean respuesta=validarRut(rutCientifico);
+		while(respuesta != true) {
+			StdOut.println("Ingrese el rut del cientifico: ");
+			rutCientifico = StdIn.readString();
+			respuesta=validarRut(rutCientifico);
+		}
+		StdOut.println("Ingrese el nombre de la instalación anterior:");
+		String nomInstalacionA = StdIn.readString();
+		StdOut.println("Ingrese el nombre de la instalación nueva:");
+		String nomInstalacionN= StdIn.readString();
+		if(sistema.reasignarCientificoInstalacion(rutCientifico, nomInstalacionA, nomInstalacionN)) {
+			StdOut.println("Reasignación correcta!");
+		}else {
+			StdOut.println("Reasignación incorrecta!");
+		}		
 	}
 	public static void menuReasignarCientifico(SistemaSUSTO sistema) {
 		StdOut.println("1. Reasignar cientifico por proyecto \n2. Reasignar cientifico por instalacion \n3. Salir");
@@ -631,7 +646,7 @@ public class App {
             op = validarOpcion();
         }
     }
-	public static void menu(SistemaSUSTO sistema) throws IOException {
+	public static void menu(SistemaSUSTO sistema) throws IOException, ParseException {
         desplegarMenu(); 
         StdOut.println("Ingrese una opción ");
         int op = validarOpcion();
@@ -686,7 +701,7 @@ public class App {
         }
 	
 	}
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ParseException {
 		StdOut.println("¡Bienvenido al sistema SUSTO!");
 		SistemaSUSTO sistema = new SistemaSUSTOImpl();
 		StdOut.println("Ingrese la fecha (dd/MM/yyyy) :");

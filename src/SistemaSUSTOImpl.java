@@ -108,9 +108,10 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
     }
 	@Override
 	public boolean reasignarCientificoProyecto(String rutCientifico, String codProyectoA, String codProyectoN){
-		boolean ingreso = false;
+        boolean ingreso = false;
         for(int i=0;i<listaCientificos.getCantCientificos();i++){
             Cientifico cient = listaCientificos.getCientificoI(i);
+            ListaProyectosCient listaProyectosCient = cient.getListaProyectos();
             if(cient.getRut().equals(rutCientifico)){
                 //verifico que el cientifico si esta en la lista de cientificos
                 for(int j=0;j<listaProyectosCient.getCantProyecto();j++){
@@ -122,15 +123,46 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
                             if(proy1.getCodigoProyecto().equals(codProyectoN)){
                                 //verifico que el proyecto nuevo este en la lista general de proyectos, osea que exista. En este momento estaria todo validado
                                 proy.setCodigoProyecto(codProyectoN);
-                                ingreso = true;       
+                                ingreso = true;
+                                
                             }
+                            
                         }
+                        
                     }
+                    
+                    
                 }
-            }         
+                
+            }
+            
+                      
         }
         return ingreso;
-	}
+    }		
+		
+	
+		/*boolean ingreso = false;
+		Cientifico cientificoBuscado = listaCientificos.buscarCientifico(rutCientifico);
+		if(cientificoBuscado!=null) {
+			ListaProyectosCient LPC = cientificoBuscado.getListaProyectos();
+			Proyecto ProyectoEncontrado = LPC.buscarProyecto(codProyectoA);
+			if(ProyectoEncontrado!=null) {
+				Proyecto ProyE = listaProyectos.buscarProyecto(codProyectoN);
+				if(ProyE!=null) {
+
+					String nombreProyecto = ProyE.getNombreProyecto();
+					int presupuestoTotal = ProyE.getPresupuestoTotal();
+					String dptoResponsable = ProyE.getDptoResponsable();
+					int cantAreasEspecializacion = ProyE.getCantAreasEspecializacion();
+					ListaAreaEspecializacion listaEspecializacion = ProyE.getListaEspecializacion();
+					LPC.setearProyecto(codProyectoA, codProyectoN, nombreProyecto, presupuestoTotal, dptoResponsable, cantAreasEspecializacion, listaEspecializacion);
+					ingreso = true;					
+				}//CAMVIARRRRRR
+			}
+		}
+        return ingreso;
+        */
 	@Override
 	public boolean reasignarCientificoInstalacion(String rutCientifico, String nomInstalacionA, String nomInstalacionN){
         boolean ingreso = false;
