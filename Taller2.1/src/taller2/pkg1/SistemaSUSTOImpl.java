@@ -4,8 +4,13 @@
  * and open the template in the editor.
  */
 package taller2.pkg1;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 import ucn.*;
-public class SistemaSUSTOImpl {
+public class SistemaSUSTOImpl{
     private ListaCientificos listaCientificos;
     private ListaDptos listaDptos;
     private ListaProyectos listaProyectos;
@@ -89,7 +94,7 @@ public class SistemaSUSTOImpl {
     public boolean reasignarCientificoProyecto(String rutCientifico, String codProyectoA, String codProyectoN, ListaProyectosCient listaProyectosCient){
         boolean ingreso = false;
         for(int i=0;i<listaCientificos.getCantCientificos;i++){
-            Cientifico cient = listaCientificos.getInstalacionI(i);
+            Cientifico cient = listaCientificos.getCientificoI(i);
             if(cient.getRut().equals(rutCientifico)){
                 //verifico que el cientifico si esta en la lista de cientificos
                 for(int j=0;j<listaProyectosCient.getCantProyectosCient();j++){
@@ -174,6 +179,7 @@ public class SistemaSUSTOImpl {
     public ListaCientificos returnListaCient(){
         return listaCientificos;
     }
+    
     
     
     
