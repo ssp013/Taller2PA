@@ -24,6 +24,7 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
     	listaProyectos = new ListaProyectos(1000);
     	listaIngresos= new ListaIngresos(1000);
     	listaSalidas = new ListaSalidas(1000);
+    	listaAreaEspecializacion = new ListaAreaEspecializacion(1000);
     }	
 	@Override
 	public boolean CrearInstalacion(String NombreInstalacion, int CantidadDptos,ListaDepartamentoInstalacion listaNuevaDepto){
@@ -106,7 +107,7 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
         return ingresoB;
     }
 	@Override
-	public boolean reasignarCientificoProyecto(String rutCientifico, String codProyectoA, String codProyectoN, ListaProyectosCient listaProyectosCient){
+	public boolean reasignarCientificoProyecto(String rutCientifico, String codProyectoA, String codProyectoN){
 		boolean ingreso = false;
         for(int i=0;i<listaCientificos.getCantCientificos();i++){
             Cientifico cient = listaCientificos.getCientificoI(i);
@@ -130,6 +131,27 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
         }
         return ingreso;
 	}
+	@Override
+	public boolean reasignarCientificoInstalacion(String rutCientifico, String nomInstalacionA, String nomInstalacionN){
+        boolean ingreso = false;
+        for(int i=0;i<listaCientificos.getCantCientificos();i++){
+            Cientifico cient = listaCientificos.getCientificoI(i);
+            if(cient.getRut().equals(rutCientifico)){
+            //verifico si esque el cientifico esta en la lista general de cientificos, osea exista
+                    //verifico que la instalacion antigua este en la lista de instalaciones de instalaciones
+            	for(int k=0;k<listaInsta.CantInsta();k++){
+                    Instalaciones insta1 = listaInsta.getInstI(i);
+                    if(insta1.getNombreInstalacion().equals(nomInstalacionN)){
+                        //verifico que la nueva instalacion este en la lista general de instalaciones, osea exista. En este momento estaria todo validado
+                        insta.setNombreInstalacion(nomInstalacionN);
+                        ingreso = true;
+                     }
+                           
+                 }
+            }
+        }
+        return ingreso;
+    }
 	@Override
 	public boolean isValid(String dateStr) {
 		try {//"dd/MM/yyyy")
@@ -159,7 +181,7 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 		boolean contratar = false;
 		Cientifico cientifico = new Cientifico (rut,nombre,apellidoP,apellidoM,
 				AreaEspecializacion,costoAsociado);
-		ListaProyectosCient lPC = new ListaProyectosCient(listaProyectoCientificoIngresado.getCantProyecto());
+		
 		//verificar si los proyectos son compatibles con los deptos e instalaciones de estos.
 		Instalaciones InstaExiste = listaInsta.buscarInsta(instalacion);
 		if(InstaExiste!=null) {//Existe la Instlacion
@@ -169,36 +191,21 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 				int capa = deptoExiste.getCapacidadDpto();
 				int presupuesto = deptoExiste.getPresupuesto();
 				if(capa>0 && presupuesto>=costoAsociado) {
-					for(int i =0; i<listaProyectoCientificoIngresado.getCantProyecto();i++) {
-						Proyecto proyCient = listaProyectoCientificoIngresado.getProyectoI(i);//viene verifiado el proyecto
-						String deptoProyectoCient = proyCient.getDptoResponsable();
-						if(dpto.equals(deptoProyectoCient)) {
-							//busco si insta es igual al depto
-							ListaDepartamentoInstalacion listaDptosDeEsaInsta = InstaExiste.getListaDepartamentoInstalacion();
-							Departamento deptoCientifico = listaDptosDeEsaInsta.buscarDptoInstalacion(dpto);
-							if(deptoCientifico!=null) {
-								//Verificar Area Especializacion:
-								ListaAreaEspecializacion listaA= proyCient.getListaEspecializacion();
-								AreaEspecializacion Area = listaA.buscarEspecializacion(AreaEspecializacion);
-								if(Area!=null) {
-									lPC.ingresarProyecto(proyCient);
-									cientifico.setListaProyectos(lPC);
-									listaCientificos.ingresarCientifico(cientifico);
-									int resta = presupuesto- costoAsociado;
-									int capaReal = capa -1;
-									deptoExiste.setCapacidadDpto(capaReal);
-									deptoExiste.setPresupuesto(resta);
-									contratar = true;								
+					listaCientificos.ingresarCientifico(cientifico);
+					int resta = presupuesto- costoAsociado;
+					int capaReal = capa -1;
+					deptoExiste.setCapacidadDpto(capaReal);
+					deptoExiste.setPresupuesto(resta);
+					contratar = true;								
 								}
 							}
 						
-						}
-					}
-				
-			}
 		}
-	}
-		
+		for(int k=0;k<listaCientificos.getCantCientificos();k++) {
+			StdOut.println(listaCientificos.getCientificoI(k).getNombre());
+		}
+					
+				
 		return contratar;
 	}
 	@Override
@@ -210,11 +217,17 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 		return resultado;
 	}
 	@Override
-	public boolean CargarProyectos(String CodigoProyecto,String NombreProyecto,int PresupuestoTotal,String DptoResponsable,int CantAreasEspecializacion,ListaAreaEspecializacion listaEspecializacion ) {
+	public boolean CargarProyectos(String CodigoProyecto,String NombreProyecto,int PresupuestoTotal,String DptoResponsable,int CantAreasEspecializacion,ListaAreaEspecializacion listaEspecializacion1 ) {
 		boolean respuesta = false;
-		Proyecto proyectoNuevo = new Proyecto(CodigoProyecto, NombreProyecto, PresupuestoTotal, DptoResponsable, CantAreasEspecializacion, listaEspecializacion);
+		Proyecto proyectoNuevo = new Proyecto(CodigoProyecto, NombreProyecto, PresupuestoTotal, DptoResponsable, CantAreasEspecializacion, listaEspecializacion1);
 		respuesta = listaProyectos.ingresarProyecto(proyectoNuevo);
-		proyectoNuevo.setListaEspecializacion(listaEspecializacion);
+		for(int a =0;a<listaEspecializacion1.getcantArea();a++) {
+			AreaEspecializacion area = listaEspecializacion1.getAreaEspecializacionI(a);
+			AreaEspecializacion areaBuscada =  listaAreaEspecializacion.buscarEspecializacion(area.getNombre());
+			if(areaBuscada==null) {
+				listaAreaEspecializacion.ingresarEspecializacion(area);
+			}
+		}
 		return respuesta;
 	}
 	@Override

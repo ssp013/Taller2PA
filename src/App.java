@@ -1,3 +1,12 @@
+ /**
+  * Inserta un título en la clase descripción.
+  * Al ser el título obligatorio, si es nulo o vacío se lanzará
+  * una excepción.
+  *
+  * @param titulo El nuevo título de la descripción.
+  * @throws IllegalArgumentException Si titulo es null, está vacío o contiene sólo espacios.
+
+  */
 import ucn.*;
 import java.io.IOException;
 import java.util.*;
@@ -261,32 +270,38 @@ public class App {
         ListaCientificos listaC = sistema.returnListaCient();
         ListaInsta ListaI = sistema.returnListaInsta();
         for(int i=0;i<ListaI.CantInsta();i++){
-            Instalaciones insta = ListaI.getInstI(i);
-            StdOut.println("Instalacion: "+insta.getNombreInstalacion());
-            ListaDepartamentoInstalacion listaDepaIn = insta.getListaDepartamentoInstalacion();
-            for(int j=0;j<listaDepaIn.getCantDptosInstalacion();j++){
-                Departamento dep = listaDepaIn.getDepartamentoInstalacion(j);
-                StdOut.println("Departamento(s): "+dep.getNombreDpto());
-                for(int k=0;k<listaP.getCantProyectos();k++){
-                    Proyecto proy = listaP.getProyectoI(k);
-                    if(proy.getDptoResponsable().equals(dep.getNombreDpto())){
-                        StdOut.println("Proyecto(s): "+proy.getNombreProyecto());
-                        for(int l=0;l<listaC.getCantCientificos();l++){
-                            Cientifico cient = listaC.getCientificoI(l);
-                            ListaProyectosCient listaProyC = cient.getListaProyectos();
-                            for(int m=0;m<listaProyC.getCantProyecto();m++){
-                                Proyecto proy1 = listaProyC.getProyectoI(m);
-                                if(proy1.getNombreProyecto().equals(proy.getNombreProyecto())){
-                                    StdOut.println("Personal: "+cient.getNombre()+" "+cient.getApellidoP());
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            
+        	Instalaciones insta = ListaI.getInstI(i);
+        	StdOut.println("Instalacion: "+insta.getNombreInstalacion());
+        	ListaDepartamentoInstalacion listaDepaIn = insta.getListaDepartamentoInstalacion();
+        	for(int j=0;j<listaDepaIn.getCantDptosInstalacion();j++){
+        		Departamento dep = listaDepaIn.getDepartamentoInstalacion(j);
+        		StdOut.println("Departamento(s): "+dep.getNombreDpto());
+        		for(int k=0;k<listaP.getCantProyectos();k++){
+        			Proyecto proy = listaP.getProyectoI(k);
+        			if(proy.getDptoResponsable().equals(dep.getNombreDpto())){//primer if, 
+        				StdOut.println("Proyecto(s): "+proy.getNombreProyecto());
+        				for(int l=0;l<listaC.getCantCientificos();l++){
+        					Cientifico cient = listaC.getCientificoI(l);
+        					ListaProyectosCient listaProyC = cient.getListaProyectos();
+        					for(int m=0;m<listaProyC.getCantProyecto();m++){
+        						Proyecto proy1 = listaProyC.getProyectoI(m);
+        						String nombreDeptoproyectoResponsable = proy1.getDptoResponsable();
+        						if(proy1.getNombreProyecto().equals(proy.getNombreProyecto())      && proy1.getDptoResponsable().equals(dep.getNombreDpto())){//Segundo if
+        							
+        								StdOut.println("Personal: "+cient.getNombre()+" "+cient.getApellidoP());
+        							
+        						}
+        					}
+        				}
+        			}
+        		}
+        	}
+        	
         } 
+
+
     }	
+
     public static void ListadoPersonasDpto(SistemaSUSTO sistema){
         ListaProyectos listaP = sistema.returnListaProyectos();
         ListaCientificos listaC = sistema.returnListaCient();
@@ -327,7 +342,38 @@ public class App {
 	        break;
 	    }
 	}
-    public static void menuReportesDePersonalYCostos(SistemaSUSTO sistema) {
+	
+	public static void CostosPorProyecto(SistemaSUSTO sistema){
+        ListaProyectos listaP = sistema.returnListaProyectos();
+        ListaCientificos listaC = sistema.returnListaCient();
+        StdOut.println("Ingrese codigo del proyecto: ");
+        String code = StdIn.readString();
+        for (int i=0;i<listaP.getCantProyectos();i++){
+            Proyecto proy = listaP.getProyectoI(i);
+            if(proy.getCodigoProyecto().equals(code)){
+                //validamos que el proyecto existe
+                StdOut.println("Proyecto "+proy.getNombreProyecto()+" Presupuesto Total: "+proy.getPresupuestoTotal());
+                for(int j=0;j<listaC.getCantCientificos();j++){
+                    //recorro la lista general de cientificos y saco su lista de proyectos
+                    Cientifico cient = listaC.getCientificoI(j);
+                    ListaProyectosCient lista = cient.getListaProyectos();
+                    for(int k=0;k<lista.getCantProyecto();k++){
+                        //veo que cientificos trabajan en este proyecto e imprimo su nombre y costo asociado
+                        Proyecto proy1 = lista.getProyectoI(k);
+                        if(proy1.getCodigoProyecto().equals(code)){
+                            StdOut.println("cientifico: "+cient.getNombre()+", costo Asociado: "+cient.getCostoAsociado());
+                        }
+                    }
+                }
+            }
+            else{
+                StdOut.println("Proyecto no encontrado");
+            }
+        }
+             
+    }
+	
+	public static void menuReportesDePersonalYCostos(SistemaSUSTO sistema) throws ParseException {
     	desplegarMenuReportesDePersonalYCostos();
         StdOut.println("Ingrese una opción ");
         int opcion = validarOpcion();
@@ -340,10 +386,10 @@ public class App {
                 	listadoProyectoPersonal(sistema);
                 break;
                 case 3:
-                	StdOut.println("Hola");
+                	CostosPorProyecto(sistema);
                 break;
                 case 4:
-                	StdOut.println("hola");
+                	HorasTrabajadas(sistema);
                 break;
                 case 5:
                 	StdOut.println("hola");
@@ -546,6 +592,45 @@ public class App {
         }
 		
 	}
+	public static void reasignarCientificoProyecto(SistemaSUSTO sistema) {
+		//(String rutCientifico, String codProyectoA, String codProyectoN, ListaProyectosCient listaProyectosCient)
+		StdOut.println("Ingrese el rut del cientifico (XX.XXX.XXX-X): ");
+		String rutCientifico = StdIn.readString();
+		boolean respuesta=validarRut(rutCientifico);
+		while(respuesta != true) {
+			StdOut.println("Ingrese el rut del cientifico: ");
+			rutCientifico = StdIn.readString();
+			respuesta=validarRut(rutCientifico);
+		}
+		StdOut.println("Ingrese el código del proyecto anterior:");
+		String codProyectoA = StdIn.readString();
+		StdOut.println("Ingrese el código del proyecto nuevo:");
+		String codProyectoN= StdIn.readString();
+		
+	}
+	public static void reasignarCientificoInstalacion(SistemaSUSTO sistema) {
+		
+	}
+	public static void menuReasignarCientifico(SistemaSUSTO sistema) {
+		StdOut.println("1. Reasignar cientifico por proyecto \n2. Reasignar cientifico por instalacion \n3. Salir");
+		int op = validarOpcion();
+        while(op!=3){  	
+            switch(op){
+            	case 1:
+            		reasignarCientificoProyecto(sistema);
+            	break;
+            	case 2:
+            		reasignarCientificoInstalacion(sistema);
+                break;
+            	case 3:
+            		StdOut.println("Salio correctamente!");
+                break;
+            }
+            StdOut.println("1. Reasignar cientifico por proyecto \n2. Reasignar cientifico por instalacion \n3. Salir");
+            StdOut.println("Ingrese una opción ");
+            op = validarOpcion();
+        }
+    }
 	public static void menu(SistemaSUSTO sistema) throws IOException {
         desplegarMenu(); 
         StdOut.println("Ingrese una opción ");
@@ -579,7 +664,7 @@ public class App {
                 break;
                 case 4:
                 	if(cargoTXT == true) {
-                		//menuEntradaSalida(sistema);                		
+                		menuReasignarCientifico(sistema);                		
                 	}else {
                 		StdOut.println("Debe cargar los arhivos txt!");
                 	}
