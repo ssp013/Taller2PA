@@ -151,14 +151,15 @@ public class app {
         
     }
     
-    public static void validarHora(String hora){
+    public static boolean validarHora(String hora){
+        boolean valido = false;
         try{
             LocalTime.parse(hora);
-            StdOut.println("hora valida");
+            valido = true;
         }catch(DateTimeParseException|NullPointerException e){
-            StdOut.println("hora invalida");
+            
         }
-       
+        return valido;
     }
     
     
