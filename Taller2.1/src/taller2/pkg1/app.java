@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 public class app {
+    
     public void ListadoPersonalInsta(sistemaSUSTO sistema){
         ListaProyectos listaP = returnListaProyectos();
         ListaCientificos listaC = returnListaCient();
@@ -165,7 +166,9 @@ public class app {
         return valido;
     }
     
-    
+    public static void menuRegistrarIngresoSalida(SistemaSUSTO sistema){
+      
+    }
     public static void main(String[]args){
         
            
