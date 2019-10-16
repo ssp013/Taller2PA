@@ -8,7 +8,7 @@ public class Cientifico {
 	private String Area;
 	private int CostoAsociado;
 	private ListaProyectosCient  listaProyectos;
-	private ListaInstalacionesCient  listaInstalaciones;
+	//private ListaInstalacionesCient  listaInstalaciones;
 	
 	public Cientifico(String Rut,String Nombre,String ApellidoP,String ApellidoM,
 			String Area,int CostoAsociado) {
@@ -71,12 +71,6 @@ public class Cientifico {
 	}
 	public void setListaProyectos(ListaProyectosCient listaProyectos) {
 		this.listaProyectos = listaProyectos;
-	}
-	public ListaInstalacionesCient getListaInstalacionesCient() {
-		return listaInstalaciones;
-	}
-	public void setListaInstalaciones(ListaInstalacionesCient listaInstalaciones) {
-		this.listaInstalaciones = listaInstalaciones;
 	}
 
 

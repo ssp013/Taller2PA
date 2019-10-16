@@ -38,4 +38,17 @@ public class ListaSalidas {
             return null;
         }
     }
+	public Salida buscarSalida(String rutCientifico) {
+		int k;
+		for(k=0;k<CantSalidas;k++) {
+			if(ListaSalidas[k].getRutCientifico().equals(rutCientifico)) {
+				break;
+			}
+		}
+		if(k==CantSalidas) {
+			return null;
+		}else {
+			return ListaSalidas[k];
+		}
+	}
 }

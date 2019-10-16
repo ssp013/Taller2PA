@@ -48,6 +48,18 @@ public class ListaIngresos {
             return null;
         }
     }
-    
+	public Ingreso buscarIngreso(String rutCientifico) {
+		int k;
+		for(k=0;k<CantIngresos;k++) {
+			if(ListaIngresos[k].getRutCientifico().equals(rutCientifico)) {
+				break;
+			}
+		}
+		if(k==CantIngresos) {
+			return null;
+		}else {
+			return ListaIngresos[k];
+		}
+	}
    
 }
