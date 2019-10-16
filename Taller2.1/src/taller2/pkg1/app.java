@@ -41,6 +41,7 @@ public class app {
         }
         
     }
+    
     public void ListadoPersonasDpto(SistemaSUSTO sistema){
         ListaProyectos listaP = sistema.returnListaProyectos();
         ListaCientificos listaC = sistema.returnListaCient();
@@ -66,6 +67,7 @@ public class app {
             }
         }
     } 
+    
     public void CostosPorProyecto(SistemaSUSTO sistema){
         ListaProyectos listaP = sistema.returnListaProyectos();
         ListaCientificos listaC = sistema.returnListaCient();
@@ -95,6 +97,7 @@ public class app {
         }
              
     }
+    
     public void HorasTrabajadas() throws ParseException{
        
         for(int i=0;i<listaProyectos.getCantProyectos();i++){
