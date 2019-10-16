@@ -37,7 +37,7 @@ public class ListaInstalacionesCient {
 			return null;
 		}
 	}
-	public int CantInstaCient() {
+	public int getCantInstalacionesCient() {
 		return this.CantInsta;
 	}
 	public String toString() {

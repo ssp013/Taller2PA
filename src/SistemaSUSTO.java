@@ -19,5 +19,7 @@ public interface SistemaSUSTO {
 	public ListaInsta returnListaInsta();
 	public ListaDptos returnListaDptos();
 	public ListaCientificos returnListaCient();
+	public ListaIngresos returnListaIngresos();
+	public ListaSalidas returnListaSalidas();
 }
  

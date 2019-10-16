@@ -6,6 +6,10 @@ import java.util.InputMismatchException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
+
 public class App { 
 	static Scanner sc = new Scanner(System.in);
 	public static void desplegarMenu() {
@@ -391,7 +395,112 @@ public class App {
 			StdOut.println("Departamento ya existe!");
 		}
 	}
-    public static void menu(SistemaSUSTO sistema) throws IOException {
+	public static void HorasTrabajadas(SistemaSUSTO sistema) throws ParseException{     
+        ListaProyectos listaProyectos = sistema.returnListaProyectos();
+        ListaCientificos listaCientificos = sistema.returnListaCient();
+        ListaIngresos listaIngresos = sistema.returnListaIngresos();
+        ListaSalidas listaSalidas = sistema.returnListaSalidas();
+		for(int i=0;i<listaProyectos.getCantProyectos();i++){
+            Proyecto proy = listaProyectos.getProyectoI(i);
+            StdOut.println("Proyecto: "+proy.getNombreProyecto());
+            for(int j=0;j<listaCientificos.getCantCientificos();j++){
+                Cientifico cient = listaCientificos.getCientificoI(j);
+                ListaProyectosCient listaProyecto1 = cient.getListaProyectos();
+                for(int m=0;m<listaProyecto1.getCantProyecto();m++) {
+                	Proyecto proy1 = listaProyecto1.getProyectoI(m);
+                	if(proy1.getDptoResponsable().equals(proy.getDptoResponsable())){
+                		//si se cumple significa que el cientifico trabaja en proy1.
+                		StdOut.println("Cientifico: "+cient.getNombre()+" "+cient.getApellidoP());
+                		for(int k=0;k<listaIngresos.getCantIngresos();k++){
+                			Ingreso ingreso = listaIngresos.getIngresoI(k);
+                			String horaI = ingreso.getHora();
+                			for(int l=0;l<listaSalidas.getCantSalidas();l++){
+                				Salida salida = listaSalidas.getSalidaI(l);
+                				String horaS = salida.getHora();
+                				if(ingreso.getRutCientifico().equals(salida.getRutCientifico())){
+                					boolean horaIng = false;
+                					boolean horaSal = false;
+                					try{
+                						LocalTime.parse(horaI);
+                						LocalTime.parse(horaS);
+                						horaIng = true;
+                						horaSal = true;
+                					}catch(DateTimeParseException|NullPointerException e){
+                						StdOut.println("hora invalida");
+                					}
+                					if(horaIng == true && horaSal == true){
+                						String dateStart = horaI;
+                						String dateStop = horaS;
+                						SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                						Date d1 = null;
+                						Date d2 = null;
+                						try{
+                							d1 = format.parse(dateStart);
+                							d2 = format.parse(dateStop);
+                							long diff = d2.getTime()-d1.getTime();
+                							long diffMinutes = diff/(60*1000)%60;
+                							long diffHours = diff/(60*60*60)%24;
+                							StdOut.println("tiempo trabajado: "+diffHours+" horas "+diffMinutes+" minutos");
+                							
+                						}catch(Exception e){
+                							e.printStackTrace();
+                						}
+                					}
+                				}
+                			}
+                		}
+                		
+                	}
+                	
+                }
+            }
+        }
+        
+    }    
+	public static void  EnlistarIngres(SistemaSUSTO sistema) {
+		StdOut.println("Ingrese la Instalación: ");
+		String instalacion = StdIn.readString();
+		StdOut.println("Ingrese el Rut del Cientifico: ");
+		String rutCientifico = StdIn.readString();
+		StdOut.println("Ingrese el la fecha (dd/MM/yyyy) : ");
+		String fecha = StdIn.readString();
+		boolean resultado = validarFecha(sistema,fecha);
+		while(!resultado) {
+			StdOut.println("Ingrese fecha correcta!");
+			fecha = StdIn.readString();
+			resultado = validarFecha(sistema,fecha);
+		}
+		StdOut.println("Ingrese la hora (hh:mm) : ");
+		String hora = StdIn.readString();
+		
+		//RegistrarIngreso(String instalacion,String rutCientifico,
+		//String fecha,String hora, ListaInstalacionesCient listaInstalacionesCient)
+	}
+	public static void  EnlistarSalida(SistemaSUSTO sistema) {
+		
+	}
+	public static void menuEntradaSalida(SistemaSUSTO sistema) {
+		StdOut.println("1. Regisrar Ingreso \n2. Registrar Salida \n3. Salir ");
+		StdOut.println("Ingrese una opción ");
+        int op = validarOpcion();
+        while(op!=3){  	
+            switch(op){
+                case 1:
+                	EnlistarIngres(sistema);
+                break;
+                case 2:
+                	EnlistarSalida(sistema);
+                break;
+                case 3:
+                break;
+            }
+            StdOut.println("1. Regisrar Ingreso \n2. Regisrar Salida \n3. Salir ");
+            StdOut.println("Ingrese una opción ");
+            op = validarOpcion();
+        }
+		
+	}
+	public static void menu(SistemaSUSTO sistema) throws IOException {
         desplegarMenu(); 
         StdOut.println("Ingrese una opción ");
         int op = validarOpcion();
@@ -424,7 +533,7 @@ public class App {
                 break;
                 case 4:
                 	if(cargoTXT == true) {
-                		menuCrearNuevasEntidades(sistema);                		
+                		menuEntradaSalida(sistema);                		
                 	}else {
                 		StdOut.println("Debe cargar los arhivos txt!");
                 	}

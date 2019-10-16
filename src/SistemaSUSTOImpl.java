@@ -18,12 +18,13 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 	private ListaInstalacionDepartamento listaInstalacionDepartamento;
 	private ListaAreaEspecializacion listaAreaEspecializacion;
 	private ListaProyectosCient listaProyectosCient;
-	
     public SistemaSUSTOImpl(){//Son listas globales debemos inicializarlas:
     	listaInsta = new ListaInsta(1000);
     	listaDptos = new ListaDptos(1000);
     	listaCientificos = new ListaCientificos(1000);
     	listaProyectos = new ListaProyectos(1000);
+    	listaIngresos= new ListaIngresos(1000);
+    	listaSalidas = new ListaSalidas(1000);
     }	
 	@Override
 	public boolean CrearInstalacion(String NombreInstalacion, int CantidadDptos,ListaDepartamentoInstalacion listaNuevaDepto){
@@ -49,7 +50,7 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 	@Override
     public boolean RegistrarIngreso(String instalacion,String rutCientifico,String fecha,String hora, ListaInstalacionesCient listaInstalacionesCient){
         boolean ingresoB = false;
-        for(int i=0;i<listaCientificos.getCantCientificos;i++){
+        for(int i=0;i<listaCientificos.getCantCientificos();i++){
             Cientifico cient = listaCientificos.getCientificoI(i);
             if(cient.getRut().equals(rutCientifico)){
                 //verifico que el cientifico este en la lista general de cientifico, osea exista
@@ -58,7 +59,7 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
                     if(sal.getRutCientifico().equals(j)){
                         //verifico que el cientifico este afuera(no puede ingresar si no esta afuera)
                         for(int k=0;k<listaInstalacionesCient.getCantInstalacionesCient();k++){
-                            Instalaciones inst = listaInstalacionesCient.getInstalacionCentI(k);
+                            Instalaciones inst = listaInstalacionesCient.getInstCientI(k);
                             if(inst.getNombreInstalacion().equals(instalacion)){
                                 //verifico que la instalacion este el la lista de instalaciones del cientifico. En este momento esta todo validado
                                 Ingreso ingreso = new Ingreso(instalacion,rutCientifico,fecha,hora);
@@ -87,7 +88,7 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
                     if(ing.getRutCientifico().equals(rutCientifico)){
                         //verifico que el cientifico este adentro (no puede salir si no esta adentro)
                         for(int k=0;k<listaInstalacionesCient.getCantInstalacionesCient();k++){
-                            Instalaciones inst = listaInstalacionesCient.getInstalacionCientI(k);
+                            Instalaciones inst = listaInstalacionesCient.getInstCientI(k);
                             if(inst.getNombreInstalacion().equals(instalacion)){
                                 //verifico que la instalacion este el la lista de instalaciones del cientifico. En este momento esta todo validado
                                 Salida salida = new Salida(instalacion,rutCientifico,fecha,hora);
@@ -215,6 +216,14 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 	@Override
     public ListaCientificos returnListaCient(){
         return listaCientificos;
+    }
+	@Override
+    public ListaIngresos returnListaIngresos(){
+        return listaIngresos;
+    }
+	@Override
+    public ListaSalidas returnListaSalidas(){
+        return listaSalidas;
     }
 }
 
