@@ -46,17 +46,63 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
         }
         return resp;
     }
-	
 	@Override
-	public boolean RegistrarIngreso(String Instalacion, String rutCientifico, String fecha, String hora) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean RegistrarSalida(String Instalacion, String rutCientifico, String fecha, String hora) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    public boolean RegistrarIngreso(String instalacion,String rutCientifico,String fecha,String hora, ListaInstalacionesCient listaInstalacionesCient){
+        boolean ingresoB = false;
+        for(int i=0;i<listaCientificos.getCantCientificos;i++){
+            Cientifico cient = listaCientificos.getCientificoI(i);
+            if(cient.getRut().equals(rutCientifico)){
+                //verifico que el cientifico este en la lista general de cientifico, osea exista
+                for(int j=0;j<listaSalidas.getCantSalidas();j++){
+                    Salida sal = listaSalidas.getSalidaI(j);
+                    if(sal.getRutCientifico().equals(j)){
+                        //verifico que el cientifico este afuera(no puede ingresar si no esta afuera)
+                        for(int k=0;k<listaInstalacionesCient.getCantInstalacionesCient();k++){
+                            Instalaciones inst = listaInstalacionesCient.getInstalacionCentI(k);
+                            if(inst.getNombreInstalacion().equals(instalacion)){
+                                //verifico que la instalacion este el la lista de instalaciones del cientifico. En este momento esta todo validado
+                                Ingreso ingreso = new Ingreso(instalacion,rutCientifico,fecha,hora);
+                                boolean registro = listaIngresos.ingresarIngreso(ingreso);
+                                ingresoB = registro;    
+                            }
+                        }
+                    }
+                }
+            }
+            
+           
+              
+        }
+        return ingresoB;
+    }
+    @Override
+    public boolean RegistrarSalida(String instalacion,String rutCientifico, String fecha, String hora,ListaInstalacionesCient listaInstalacionesCient){
+        boolean salidaB = false;
+        for(int i=0;i<listaCientificos.getCantCientificos();i++){
+            Cientifico cient = listaCientificos.getCientificoI(i);
+            if(cient.getRut().equals(rutCientifico)){
+                //verifico que el cientifico exista
+                for(int j=0;j<listaIngresos.getCantIngresos();j++){
+                    Ingreso ing = listaIngresos.getIngresoI(j);
+                    if(ing.getRutCientifico().equals(rutCientifico)){
+                        //verifico que el cientifico este adentro (no puede salir si no esta adentro)
+                        for(int k=0;k<listaInstalacionesCient.getCantInstalacionesCient();k++){
+                            Instalaciones inst = listaInstalacionesCient.getInstalacionCientI(k);
+                            if(inst.getNombreInstalacion().equals(instalacion)){
+                                //verifico que la instalacion este el la lista de instalaciones del cientifico. En este momento esta todo validado
+                                Salida salida = new Salida(instalacion,rutCientifico,fecha,hora);
+                                boolean registro = listaSalidas.ingresarSalida(salida);
+                                salidaB = registro;
+
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+        return salidaB;
+    }
 	@Override
 	public boolean reasignarCientificoProyecto(String rutCientifico, String codProyectoA, String codProyectoN, ListaProyectosCient listaProyectosCient){
 		boolean ingreso = false;
@@ -109,60 +155,20 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 	public boolean ContratarCientifico(String rut, String nombre, String apellidoP, String apellidoM, String AreaEspecializacion,
 			int costoAsociado,ListaProyectosCient listaProyectoCientificoIngresado, String dpto, String instalacion) {
 		boolean contratar = false;
-		//Verificar si existe o no el cientifico:
-		Cientifico CientificoBuscado = listaCientificos.buscarCientifico(rut);
-		if(CientificoBuscado == null) {
-			//significa que podemos agregarlo:
-			//verificar si la instalacion ingresada existe.
-			Instalaciones InstalacionBuscada = listaInsta.buscarInsta(instalacion);
-			if(InstalacionBuscada != null) {
-				//entonces tenemos la instalacion:
-				//recorro ahora elm depto:
-				Departamento departamentoBuscado = listaDptos.buscarDpto(dpto);
-				if(departamentoBuscado!=null) {
-					//puedo verficar q si esta ese departamento
-					//Verificamos si existe o no sus proyectos, debemos recorrer su lista.
-					for(int l =0;l<listaProyectoCientificoIngresado.getCantProyecto();l++) {
-						Proyecto proyectoCientifico = listaProyectoCientificoIngresado.getProyectoI(l);
-						String CodigoProyectoCientifico = proyectoCientifico.getCodigoProyecto();
-						Proyecto proyectoEncontrado = listaProyectos.buscarProyecto(CodigoProyectoCientifico);
-						if(proyectoEncontrado!=null) {
-							String DeptoResponsableProyectoCientifico = proyectoEncontrado.getDptoResponsable();
-							Departamento depto1 = listaDptos.buscarDpto(DeptoResponsableProyectoCientifico);
-							ListaInstalacionDepartamento listaInstalaciones = depto1.getListaInstalacionDepartamento();
-							Instalaciones instalacionEncontrada = listaInstalaciones.buscarInstaDepto(instalacion);
-							if(instalacionEncontrada!=null) {
-								if(instalacionEncontrada.getNombreInstalacion().equals(instalacion) && DeptoResponsableProyectoCientifico.equals(dpto)) {
-									//Puedo contratar al cientidico , pero debo veri
-									//revisar area especializacion y el costo y presupuesto.
-									if(proyectoEncontrado.getPresupuestoTotal() >= costoAsociado) {
-										ListaAreaEspecializacion  listaAreaEspecializacion = proyectoEncontrado.getListaEspecializacion();
-										AreaEspecializacion AreaEncontrada = listaAreaEspecializacion.buscarEspecializacion(AreaEspecializacion);
-										if(AreaEncontrada!=null) {
-											//Creamos al cientifico.
-											Cientifico CientificoEncontrado = new Cientifico(rut,nombre,apellidoP,apellidoM,AreaEspecializacion, costoAsociado);
-											ListaProyectosCient ListaProyectosEncontrado = new ListaProyectosCient(listaProyectoCientificoIngresado.getCantProyecto());
-											ListaInstalacionesCient ListaInstaAgregar = new ListaInstalacionesCient(listaProyectoCientificoIngresado.getCantProyecto());
-											boolean IngresoProyecto = ListaProyectosEncontrado.ingresarProyecto(proyectoCientifico);
-											boolean IngresoInsta = ListaInstaAgregar.ingresarInstaCient( instalacionEncontrada);
-											if(IngresoProyecto== true && IngresoInsta==true && depto1.getCapacidadDpto()>0) {
-												//descontar presupuesto de proyecto..Verificar capacidad de los depto para alojar cinetificos..
-												int presupuesto = proyectoEncontrado.getPresupuestoTotal() -costoAsociado;
-												proyectoEncontrado.setPresupuestoTotal(presupuesto);//disminuimos su presupuesto.
-												contratar=true;
-												return contratar;													
-											}
-										}
-									}
-									
-								}
-							}
-						}
-					}
+		Cientifico cientifico = new Cientifico (rut,nombre,apellidoP,apellidoM,
+				AreaEspecializacion,costoAsociado);
+		//verificar si los proyectos son compatibles con los deptos e instalaciones de estos.
+		Instalaciones InstaExiste = listaInsta.buscarInsta(instalacion);
+		if(InstaExiste!=null) {//Existe la Instlacion
+			ListaDepartamentoInstalacion listaDepatosInsta = InstaExiste.getListaDepartamentoInstalacion();
+			Departamento deptoExiste = listaDepatosInsta.buscarDptoInstalacion(dpto);
+			if(deptoExiste!=null) {//Existe el departamento:
+				for(int i =0; i<listaProyectoCientificoIngresado.getCantProyecto();i++) {
+					
 				}
 			}
-			
 		}
+		
 		return contratar;
 	}
 	@Override

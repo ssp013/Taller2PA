@@ -84,6 +84,7 @@ public class App {
 				int presupuesto = regEnt.getInt();
 				Departamento NuevoDepartamento = new Departamento(depto1, capacidad, presupuesto);
 				listaNuevaDI.ingesarDptoInstalacion(NuevoDepartamento);
+				sistema.crearDpto(depto1, capacidad, presupuesto);	
 			}
 			resp = sistema.CargarInstalaciones(nombreInstalacion,cantDepartamentos,listaNuevaDI);
 		}
@@ -150,45 +151,52 @@ public class App {
 			rut = StdIn.readString();
 			respuesta=validarRut(rut);
 		}
-		StdOut.println("Ingrese el nombre del cientifico :");
-		String nombre = StdIn.readString();
-		StdOut.println("Ingrese el apellido paterno del cientifico : ");
-		String apellidoP = StdIn.readString();
-		StdOut.println("Ingrese el apellido materno del cientifico: ");
-		String apellidoM = StdIn.readString();
-		StdOut.println("Ingrese su área de especialización:");
-		String AreaEspecializacion = StdIn.readString();
-		StdOut.println("Ingrese el su costo asociado:  ");
-		int costoAsociado = validarOpcion();
-		StdOut.println("Ingrese el departamento que se le asiganará a "+nombre+" "+apellidoP+" : ");
-		String dpto = StdIn.readString();
-		StdOut.println("Ingrese la instalación que se le asiganará a "+nombre+" "+apellidoP+" : ");
-		String instalacion = StdIn.readString();
-		//Solicitar los proyectos a los cuáles se asignará:
-		StdOut.println("Ingrese la cantidad de proyectos de "+nombre+" "+apellidoP+" : ");
-		int n = validarOpcion();
-		ListaProyectosCient listaProyectoDelCientifico = new ListaProyectosCient(n);
-		for(int i=0;i<n;i++) {
-			StdOut.println("Ingrese código proyecto proyecto N "+i+1+" :");
-			String codigo = StdIn.readString();
-			StdOut.println("Ingrese nombre proyecto proyecto N "+i+1+" :");
-			String nombreProyecto = StdIn.readString();
-			Proyecto p1 = new Proyecto(codigo, nombreProyecto, 0, null, 0, null);
-			Proyecto p2 = new Proyecto(nombreProyecto, nombreProyecto, i, nombreProyecto, i, null);
-			listaProyectoDelCientifico.ingresarProyecto(p1);
-		}
-		boolean resp = sistema.ContratarCientifico(rut, nombre, apellidoP, apellidoM, AreaEspecializacion, costoAsociado, listaProyectoDelCientifico, dpto, instalacion);
-		if(resp) {
-			StdOut.println("Ingreso correcto ");
+		ListaCientificos listaCientificicosGlobal = sistema.returnListaCient();
+		Cientifico CientificoEncontrado = listaCientificicosGlobal.buscarCientifico(rut);
+		if(CientificoEncontrado==null) {
+			StdOut.println("Ingrese el nombre del cientifico :");
+			String nombre = StdIn.readString();
+			StdOut.println("Ingrese el apellido paterno del cientifico : ");
+			String apellidoP = StdIn.readString();
+			StdOut.println("Ingrese el apellido materno del cientifico: ");
+			String apellidoM = StdIn.readString();
+			StdOut.println("Ingrese su área de especialización:");
+			String AreaEspecializacion = StdIn.readString();
+			StdOut.println("Ingrese el su costo asociado:  ");
+			int costoAsociado = validarOpcion();
+			StdOut.println("Ingrese el departamento que se le asiganará a "+nombre+" "+apellidoP+" : ");
+			String dpto = StdIn.readString();
+			StdOut.println("Ingrese la instalación que se le asiganará a "+nombre+" "+apellidoP+" : ");
+			String instalacion = StdIn.readString();
+			//Solicitar los proyectos a los cuáles se asignará:
+			StdOut.println("Ingrese la cantidad de proyectos de "+nombre+" "+apellidoP+" : ");
+			int n = validarOpcion();	
+			ListaProyectosCient listaProyectoDelCientifico = new ListaProyectosCient(n);
+			for(int i=0;i<n;i++) {
+				int r = i+1;
+				StdOut.println("Ingrese código proyecto proyecto Nº "+r+" :");
+				String codigo = StdIn.readString();
+				ListaProyectos listaproyectosGlobal = sistema.returnListaProyectos();
+				Proyecto proyectoEncontrado = listaproyectosGlobal.buscarProyecto(codigo);
+				if(proyectoEncontrado!=null) {
+					StdOut.println("Ingrese nombre proyecto proyecto Nº "+r+" :");
+					String nombreProyecto = StdIn.readString();	
+					Proyecto p1 = new Proyecto(codigo, nombreProyecto, 0, "buscar", 0, null);
+					listaProyectoDelCientifico.ingresarProyecto(p1);
+				}
+			}
+			boolean resp = sistema.ContratarCientifico(rut, nombre, apellidoP, apellidoM, AreaEspecializacion, costoAsociado, listaProyectoDelCientifico, dpto, instalacion);
+			if(resp) {
+				StdOut.println("Ingreso Correcto!");
+			}else {
+				StdOut.println("Ingreso Incorrecto!");
+			}
 		}else {
-			StdOut.println("Error! al contratar Científico");			
+			StdOut.println("Ya existe este cientifico! Cuidado!");
 		}
+		
+		
 	}
-
-	
-	
-	
-	
 	public static void menuCrearNuevasEntidades(SistemaSUSTO sistema) throws IOException {
 		desplegarMenuCrearNuevasEntidades();
         StdOut.println("Ingrese una opción ");
@@ -347,17 +355,17 @@ public class App {
 				int re = i+1;
 				StdOut.println("Ingrese el nombre del departamento Nº"+re+" :");
 				String nombreDpto = StdIn.readString();
-				StdOut.println("Ingrese la capacidad del departamento:  ");
-				int CapacidadDpto = validarOpcion();
-				StdOut.println("Ingrese el presupuesto del departamento "+nombreDpto+" : ");
-				int presupuesto =validarOpcion();
-				Departamento depto = new Departamento(nombreDpto, CapacidadDpto, presupuesto);
 				ListaDptos listaDepartamentosglobal = sistema.returnListaDptos();
 				Departamento deptoEncontrado = listaDepartamentosglobal.buscarDpto(nombreDpto);
-				if(deptoEncontrado != null) {
-					listaNuevaDepto.ingesarDptoInstalacion(depto);				
+				if(deptoEncontrado!=null) {
+					StdOut.println("Ingrese la capacidad del departamento:  ");
+					int CapacidadDpto = validarOpcion();
+					StdOut.println("Ingrese el presupuesto del departamento "+nombreDpto+" : ");
+					int presupuesto =validarOpcion();
+					Departamento depto = new Departamento(nombreDpto, CapacidadDpto, presupuesto);
+					listaNuevaDepto.ingesarDptoInstalacion(depto);
 				}else {
-					StdOut.println("No existe el departamento"+nombreDpto+", primero debe crear Departamento!");
+					StdOut.println("No existe el departamento de "+nombreDpto+", primero debe crear Departamento!");
 				}
 			}
 			if(sistema.CrearInstalacion(NombreInstalacion, CantidadDptos,listaNuevaDepto)) {

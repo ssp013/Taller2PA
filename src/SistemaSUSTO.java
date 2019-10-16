@@ -5,8 +5,8 @@ import ucn.ArchivoEntrada;
 public interface SistemaSUSTO {
 	public boolean CrearInstalacion(String NombreInstalacion, int CantidadDptos,ListaDepartamentoInstalacion listaNuevaDepto);
 	public boolean crearDpto(String nomDpto,int capacidad, int presupuesto);
-	public boolean RegistrarIngreso(String Instalacion, String rutCientifico, String fecha, String hora);
-	public boolean RegistrarSalida(String Instalacion, String rutCientifico, String fecha, String hora);
+	public boolean RegistrarIngreso(String instalacion,String rutCientifico,String fecha,String hora, ListaInstalacionesCient listaInstalacionesCient);
+	public boolean RegistrarSalida(String instalacion,String rutCientifico, String fecha, String hora,ListaInstalacionesCient listaInstalacionesCient);
 	public boolean reasignarCientificoProyecto(String rutCientifico, String codProyectoA, String codProyectoN, ListaProyectosCient listaProyectosCient);
 	public boolean isValid(String dateStr);
 	public boolean ContratarCientifico(String rut, String nombre, String apellidoP, String apellidoM,
