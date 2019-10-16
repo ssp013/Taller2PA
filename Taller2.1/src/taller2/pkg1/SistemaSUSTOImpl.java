@@ -36,32 +36,35 @@ public class SistemaSUSTOImpl{
     
     public boolean registrarIngreso(String instalacion,String rutCientifico,String fecha,String hora){
         boolean ingresoB = false;
-        for(int i=0;i<listaCientificos.getCantCientificos;i++){
-            Cientifico cient = listaCientificos.getCientificoI(i);
-            ListaInstalacionesCient lista = cient.getListaInstalacionesCient();
-            if(cient.getRut().equals(rutCientifico)){
-                //verifico que el cientifico este en la lista general de cientifico, osea exista
-                for(int j=0;j<listaSalidas.getCantSalidas();j++){
-                    Salida sal = listaSalidas.getSalidaI(j);
-                    if(sal.getRutCientifico().equals(j)){
-                        //verifico que el cientifico este afuera(no puede ingresar si no esta afuera)
-                        for(int k=0;k<lista.getCantInstalacionesCient();k++){
-                            Instalaciones inst = lista.getInstalacionCentI(k);
-                            if(inst.getNombreInstalacion().equals(instalacion)){
-                                //verifico que la instalacion este el la lista de instalaciones del cientifico. En este momento esta todo validado
-                                Ingreso ingreso = new Ingreso(instalacion,rutCientifico,fecha,hora);
-                                boolean registro = listaIngresos.ingresarIngreso(ingreso);
-                                ingresoB = registro;    
-                            }
+        Salida sal = listaSalidas.buscarSalida(rutCientifico);
+        if(sal!=null){
+            Instalaciones insta = listaInsta.buscarInsta(instalacion);
+            Cientifico cient = listaCientificos.buscarCient(rutCientifico);
+            if(insta != null && cient != null){
+                ListaProyectosCient LPC = cient.getListaProyectosCient();
+                for(int i=0;i<LPC.getCantProyectosCient();i++){
+                    Proyecto proy = LPC.getProyectoCientI(i);
+                    String dptoAsociado = proy.getDptoResponsable();
+                    ListaDepartamentoInstalacion LDI = insta.getListaDepartamentoInstalacion();
+                    Departamento deptoEncontrado = LDI.buscarDptoInstalacion(dptoAsociado);
+                    if(deptoEncontrado!=null){
+                        String nombreDeptoEncontrado = deptoEncontrado.getNombreDpto();
+                        if(nombreDeptoEncontrado.equals(dptoAsociado)){
+                            Ingreso ingresoNuevo = new Ingreso (instalacion,rutCientifico,fecha,hora);
+                            boolean registro = listaIngreso.agregarIngreso(ingresoNuevo);
+                            ingresoB = registro;
                         }
                     }
+                            
                 }
             }
+                
+                
             
-           
-              
-        }
+        }  
         return ingresoB;
+            
+                  
     }
    
     public boolean registrarSalida(String instalacion,String rutCientifico, String fecha, String hora){
