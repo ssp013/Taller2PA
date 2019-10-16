@@ -44,6 +44,16 @@ public class App {
 		}
 		return validacion;
 		}	
+    public static boolean validarHora(String hora){
+    	boolean valido = false;
+        try{
+            LocalTime.parse(hora);
+            valido= true;
+        }catch(DateTimeParseException|NullPointerException e){
+          
+        } 
+        return valido;
+    }	
 	public static int validarOpcion()
 	 {
 	  while (true)
@@ -457,12 +467,12 @@ public class App {
         }
         
     }    
-	public static void  EnlistarIngres(SistemaSUSTO sistema) {
+	public static void  EnlistarIngreso(SistemaSUSTO sistema) {
 		StdOut.println("Ingrese la Instalación: ");
 		String instalacion = StdIn.readString();
 		StdOut.println("Ingrese el Rut del Cientifico: ");
 		String rutCientifico = StdIn.readString();
-		StdOut.println("Ingrese el la fecha (dd/MM/yyyy) : ");
+		StdOut.println("Ingrese la fecha (dd/MM/yyyy) : ");
 		String fecha = StdIn.readString();
 		boolean resultado = validarFecha(sistema,fecha);
 		while(!resultado) {
@@ -472,12 +482,47 @@ public class App {
 		}
 		StdOut.println("Ingrese la hora (hh:mm) : ");
 		String hora = StdIn.readString();
+		boolean horaValidar = validarHora(hora);
+		while(!resultado) {
+			StdOut.println("Ingrese fecha correcta!");
+			hora = StdIn.readString();
+			horaValidar = validarHora(hora);
+		}
+		if(sistema.RegistrarIngreso(instalacion,rutCientifico,fecha,hora)) {
+			StdOut.println("Ingreso correcto!");
+		}else {
+			StdOut.println("Ingreso incorrecto!");
+		}
 		
 		//RegistrarIngreso(String instalacion,String rutCientifico,
 		//String fecha,String hora, ListaInstalacionesCient listaInstalacionesCient)
 	}
 	public static void  EnlistarSalida(SistemaSUSTO sistema) {
-		
+		StdOut.println("Ingrese la Instalación: ");
+		String instalacion = StdIn.readString();
+		StdOut.println("Ingrese el Rut del Cientifico: ");
+		String rutCientifico = StdIn.readString();
+		StdOut.println("Ingrese la fecha (dd/MM/yyyy) : ");
+		String fecha = StdIn.readString();
+		boolean resultado = validarFecha(sistema,fecha);
+		while(!resultado) {
+			StdOut.println("Ingrese fecha correcta!");
+			fecha = StdIn.readString();
+			resultado = validarFecha(sistema,fecha);
+		}
+		StdOut.println("Ingrese la hora (hh:mm) : ");
+		String hora = StdIn.readString();
+		boolean horaValidar = validarHora(hora);
+		while(!resultado) {
+			StdOut.println("Ingrese fecha correcta!");
+			hora = StdIn.readString();
+			horaValidar = validarHora(hora);
+		}
+		if(sistema.RegistrarSalida(instalacion,rutCientifico,fecha,hora)) {
+			StdOut.println("Ingreso correcto!");
+		}else {
+			StdOut.println("Ingreso incorrecto!");
+		}
 	}
 	public static void menuEntradaSalida(SistemaSUSTO sistema) {
 		StdOut.println("1. Regisrar Ingreso \n2. Registrar Salida \n3. Salir ");
@@ -486,7 +531,7 @@ public class App {
         while(op!=3){  	
             switch(op){
                 case 1:
-                	EnlistarIngres(sistema);
+                	EnlistarIngreso(sistema);
                 break;
                 case 2:
                 	EnlistarSalida(sistema);
@@ -526,14 +571,14 @@ public class App {
                 break;
                 case 3:
                 	if(cargoTXT == true) {
-                		menuCrearNuevasEntidades(sistema);                		
+                		menuEntradaSalida(sistema);                		
                 	}else {
                 		StdOut.println("Debe cargar los arhivos txt!");
                 	}
                 break;
                 case 4:
                 	if(cargoTXT == true) {
-                		menuEntradaSalida(sistema);                		
+                		//menuEntradaSalida(sistema);                		
                 	}else {
                 		StdOut.println("Debe cargar los arhivos txt!");
                 	}

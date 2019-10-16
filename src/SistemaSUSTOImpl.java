@@ -48,16 +48,19 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
         return resp;
     }
 	@Override
-    public boolean RegistrarIngreso(String instalacion,String rutCientifico,String fecha,String hora, ListaInstalacionesCient listaInstalacionesCient){
+    public boolean RegistrarIngreso(String instalacion,String rutCientifico,String fecha,String hora ){
         boolean ingresoB = false;
+     
         for(int i=0;i<listaCientificos.getCantCientificos();i++){
             Cientifico cient = listaCientificos.getCientificoI(i);
+            ListaInstalacionesCient listaInstalacionesCient = cient.getListaInstalacionesCient();
             if(cient.getRut().equals(rutCientifico)){
                 //verifico que el cientifico este en la lista general de cientifico, osea exista
                 for(int j=0;j<listaSalidas.getCantSalidas();j++){
                     Salida sal = listaSalidas.getSalidaI(j);
                     if(sal.getRutCientifico().equals(j)){
                         //verifico que el cientifico este afuera(no puede ingresar si no esta afuera)
+                    	
                         for(int k=0;k<listaInstalacionesCient.getCantInstalacionesCient();k++){
                             Instalaciones inst = listaInstalacionesCient.getInstCientI(k);
                             if(inst.getNombreInstalacion().equals(instalacion)){
@@ -77,10 +80,11 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
         return ingresoB;
     }
     @Override
-    public boolean RegistrarSalida(String instalacion,String rutCientifico, String fecha, String hora,ListaInstalacionesCient listaInstalacionesCient){
+    public boolean RegistrarSalida(String instalacion,String rutCientifico, String fecha, String hora){
         boolean salidaB = false;
         for(int i=0;i<listaCientificos.getCantCientificos();i++){
             Cientifico cient = listaCientificos.getCientificoI(i);
+            ListaInstalacionesCient listaInstalacionesCient = cient.getListaInstalacionesCient();
             if(cient.getRut().equals(rutCientifico)){
                 //verifico que el cientifico exista
                 for(int j=0;j<listaIngresos.getCantIngresos();j++){
