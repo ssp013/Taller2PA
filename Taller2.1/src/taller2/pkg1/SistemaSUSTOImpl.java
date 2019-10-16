@@ -34,18 +34,19 @@ public class SistemaSUSTOImpl{
         return creado; 
     }
     
-    public boolean registrarIngreso(String instalacion,String rutCientifico,String fecha,String hora, ListaInstalacionesCient listaInstalacionesCient){
+    public boolean registrarIngreso(String instalacion,String rutCientifico,String fecha,String hora){
         boolean ingresoB = false;
         for(int i=0;i<listaCientificos.getCantCientificos;i++){
             Cientifico cient = listaCientificos.getCientificoI(i);
+            ListaInstalacionesCient lista = cient.getListaInstalacionesCient();
             if(cient.getRut().equals(rutCientifico)){
                 //verifico que el cientifico este en la lista general de cientifico, osea exista
                 for(int j=0;j<listaSalidas.getCantSalidas();j++){
                     Salida sal = listaSalidas.getSalidaI(j);
                     if(sal.getRutCientifico().equals(j)){
                         //verifico que el cientifico este afuera(no puede ingresar si no esta afuera)
-                        for(int k=0;k<listaInstalacionesCient.getCantInstalacionesCient();k++){
-                            Instalaciones inst = listaInstalacionesCient.getInstalacionCentI(k);
+                        for(int k=0;k<lista.getCantInstalacionesCient();k++){
+                            Instalaciones inst = lista.getInstalacionCentI(k);
                             if(inst.getNombreInstalacion().equals(instalacion)){
                                 //verifico que la instalacion este el la lista de instalaciones del cientifico. En este momento esta todo validado
                                 Ingreso ingreso = new Ingreso(instalacion,rutCientifico,fecha,hora);
@@ -63,18 +64,19 @@ public class SistemaSUSTOImpl{
         return ingresoB;
     }
    
-    public boolean registrarSalida(String instalacion,String rutCientifico, String fecha, String hora,ListaInstalacionesCient listaInstalacionesCient){
+    public boolean registrarSalida(String instalacion,String rutCientifico, String fecha, String hora){
         boolean salidaB = false;
         for(int i=0;i<listaCientificos.getCantCientificos();i++){
             Cientifico cient = listaCientificos.getCientificoI(i);
+            ListaInstalacionesCient lista = cient.getListaInstalacionesCient();
             if(cient.getRut().equals(rutCientifico)){
                 //verifico que el cientifico exista
                 for(int j=0;j<listaIngresos.getCantIngresos();j++){
                     Ingreso ing = listaIngresos.getIngresoI(j);
                     if(ing.getRutCientifico().equals(rutCientifico)){
                         //verifico que el cientifico este adentro (no puede salir si no esta adentro)
-                        for(int k=0;k<listaInstalacionesCient.getCantInstalacionesCient();k++){
-                            Instalaciones inst = listaInstalacionesCient.getInstalacionCientI(k);
+                        for(int k=0;k<lista.getCantInstalacionesCient();k++){
+                            Instalaciones inst = lista.getInstalacionCientI(k);
                             if(inst.getNombreInstalacion().equals(instalacion)){
                                 //verifico que la instalacion este el la lista de instalaciones del cientifico. En este momento esta todo validado
                                 Salida salida = new Salida(instalacion,rutCientifico,fecha,hora);
