@@ -1,3 +1,4 @@
-19.100.657-7,Seba,Sanchez,Perez,areaEspecificacion1,5000
-8.778.925-k,Alex,BuenDia,Rojas,areaEspecificacion2,9000
-12.440.322-7,Laura,Diaz,franshoti,areaEspecificacion3,10000
+19.100.657-7,Seba,Sanchez,Perez,areaEspecificacion1,5000,pr1
+19.100.657-7,Seba,Sanchez,Perez,areaEspecificacion1,5000,pr3
+8.778.925-k,Alex,BuenDia,Rojas,areaEspecificacion2,9000,pr1
+12.440.322-7,Laura,Diaz,franshoti,areaEspecificacion3,10000,pr2

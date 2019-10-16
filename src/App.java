@@ -137,7 +137,8 @@ public class App {
 			String ApellidoM = regEnt.getString();
 			String Area = regEnt.getString();
 			int CostoAsociado =  regEnt.getInt();
-			resp = sistema.CargarCientifico(Rut, Nombre, ApellidoP, ApellidoM, Area, CostoAsociado);
+			String codProyecto = regEnt.getString();
+			resp = sistema.CargarCientifico(Rut, Nombre, ApellidoP, ApellidoM, Area, CostoAsociado,codProyecto);
 		}
 		archivoCientifico.close();
 		return resp;

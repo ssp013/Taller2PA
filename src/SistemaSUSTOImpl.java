@@ -193,15 +193,32 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 		return respuesta;
 	}
 	@Override
-	public boolean CargarCientifico(String Rut, String Nombre,String  ApellidoP, String ApellidoM, String Area, int CostoAsociado){
+	public boolean CargarCientifico(String Rut, String Nombre,String  ApellidoP, String ApellidoM, String Area, int CostoAsociado,String codProyecto){
 		boolean respuesta = false;
 		Cientifico CientificoCreado = new Cientifico(Rut, Nombre, ApellidoP, ApellidoM, Area, CostoAsociado);
-		respuesta = listaCientificos.ingresarCientifico(CientificoCreado);
-		if(respuesta) {
-			ListaProyectosCient listaProyectosC = new ListaProyectosCient(10);
-			ListaInstalacionesCient listaInstalacionesC = new ListaInstalacionesCient(10);
-			CientificoCreado.setListaInstalaciones(listaInstalacionesC);
-			CientificoCreado.setListaProyectos(listaProyectosC);	
+		//Verificar si existe o no en las lista general,
+		Cientifico cientificoBuscado = listaCientificos.buscarCientifico(Rut);
+		if(cientificoBuscado==null) {
+			if(listaCientificos.ingresarCientifico(CientificoCreado)) {
+				//se pudo ingresar el cientifico, por lo tanto creamos su lista, con los posibles proyectpos.
+				ListaProyectosCient listaProyectosC = new ListaProyectosCient(10);//Tomamos en cuenta que el Cientifico presentará hasta un máximo de 10 proyecto.
+				//buscar proyecto:
+				Proyecto proyecto = listaProyectos.buscarProyecto(codProyecto);
+				if(proyecto!=null) {
+					listaProyectosC.ingresarProyecto(proyecto);
+					CientificoCreado.setListaProyectos(listaProyectosC);
+					respuesta = true;
+				}
+			}	
+		}else {//en el caso q existiera el cientifico, debemos agregar su proyecto.
+			ListaProyectosCient listaProyectosC = cientificoBuscado.getListaProyectos();
+			Proyecto proyecto = listaProyectos.buscarProyecto(codProyecto);
+			if(proyecto!=null) {
+				if(listaProyectosC.ingresarProyecto(proyecto)) {
+					CientificoCreado.setListaProyectos(listaProyectosC);
+					respuesta = true;					
+				}
+			}
 		}
 		return respuesta;
 	}
