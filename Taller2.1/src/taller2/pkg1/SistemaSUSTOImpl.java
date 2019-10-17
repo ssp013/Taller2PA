@@ -142,6 +142,42 @@ public class SistemaSUSTOImpl{
         }
         return ingreso;
     }
+    public boolean reasignarCientificoInstalacion(String rutCientifico, String nomInstalacionA, String nomInstalacionN){
+        boolean ingreso = false;
+        for(int i=0;i<listaCientificos.getCantCientificos();i++){
+            Cientifico cient = listaCientificos.getCientificoI(i);
+            if(cient.getRut().equals(rutCientifico)){
+                //verifico si esque el cientifico esta en la lista general de cientificos, osea exista
+                //verifico que la instalacion antigua este en la lista de instalaciones de instalaciones
+            	for(int k=0;k<listaInsta.CantInsta();k++){
+                    Instalaciones instaA = listaInsta.getInstI(i);
+                    if(instaA.getNombreInstalacion().equals(nomInstalacionA)){
+                        for(int j=0;j<listaInsta.CantInsta();j++){
+                            Instalaciones instaB = listaInsta.getInstI(i);
+                            if(instaB.getNombreInstalacion().equals(nomInstalacionN)){
+                                //verificando que ambas instalaciones existan
+                                ListaDepartamentoInstalacion lDI = instaA.getListaDepartamentoInstalacion();
+                                for(int s=0;s<lDI.getCantDptosInstalacion();s++){
+                                    Departamento d1 = lDI.getDepartamentoInstalacion(s);
+                                    ListaProyectosCient LPC = cient.getListaProyectos();
+                                    for(int l=0;l<LPC.getCantProyecto();l++){
+                                        Proyecto proy = LPC.getProyectoI(l);
+                                        if(proy.getDptoResponsable().equals(d1.getNombreDpto())){
+                                            //si esto se cumple verifico que el cientifico pertenezca al InstalacionA
+                                            ingreso = true;
+                                        }
+                                    }
+                                }
+                                
+                            }
+                        }
+                    }
+                           
+                }
+            }
+        }
+        return ingreso;
+    }
     
     public boolean crearDpto(String nomDpto,int capacidad, int presupuesto){
         boolean resp = false;
