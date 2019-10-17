@@ -21,14 +21,14 @@ public class Proyecto {
 		return CodigoProyecto;
 	}
 	public void setCodigoProyecto(String codigoProyecto) {
-		CodigoProyecto = codigoProyecto;
+		this.CodigoProyecto = codigoProyecto;
 	}
 	public String getNombreProyecto() {
 		return NombreProyecto;
 	}
 
 	public void setNombreProyecto(String nombreProyecto) {
-		NombreProyecto = nombreProyecto;
+		this.NombreProyecto = nombreProyecto;
 	}
 
 	public int getPresupuestoTotal() {
@@ -36,7 +36,7 @@ public class Proyecto {
 	}
 
 	public void setPresupuestoTotal(int presupuestoTotal) {
-		PresupuestoTotal = presupuestoTotal;
+		this.PresupuestoTotal = presupuestoTotal;
 	}
 
 	public String getDptoResponsable() {
@@ -44,7 +44,7 @@ public class Proyecto {
 	}
 
 	public void setDptoResponsable(String dptoResponsable) {
-		DptoResponsable = dptoResponsable;
+		this.DptoResponsable = dptoResponsable;
 	}
 
 	public int getCantAreasEspecializacion() {
@@ -52,7 +52,7 @@ public class Proyecto {
 	}
 
 	public void setCantAreasEspecializacion(int cantAreasEspecializacion) {
-		CantAreasEspecializacion = cantAreasEspecializacion;
+		this.CantAreasEspecializacion = cantAreasEspecializacion;
 	}
 	public ListaAreaEspecializacion getListaEspecializacion() {
 		return listaEspecializacion;

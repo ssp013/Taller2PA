@@ -16,37 +16,36 @@ public class Ingreso {
         this.hora = hora;
     }
 
-    public String getInstalacion() {
-        return instalacion;
-    }
+	public String getInstalacion() {
+		return instalacion;
+	}
 
-    public void setInstalacion(String instalacion) {
-        this.instalacion = instalacion;
-    }
+	public void setInstalacion(String instalacion) {
+		this.instalacion = instalacion;
+	}
 
-    public String getRutCientifico() {
-        return rutCientifico;
-    }
+	public String getRutCientifico() {
+		return rutCientifico;
+	}
 
-    public void setRutCientifico(String rutCientifico) {
-        this.rutCientifico = rutCientifico;
-    }
+	public void setRutCientifico(String rutCientifico) {
+		this.rutCientifico = rutCientifico;
+	}
 
-    public String getFecha() {
-        return fecha;
-    }
+	public String getFecha() {
+		return fecha;
+	}
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
 
-    public String getHora() {
-        return hora;
-    }
+	public String getHora() {
+		return hora;
+	}
 
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
-    
+	public void setHora(String hora) {
+		this.hora = hora;
+	}    
     
 }

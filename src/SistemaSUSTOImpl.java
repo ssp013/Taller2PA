@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import ucn.*;
@@ -115,6 +116,7 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
             if(cient.getRut().equals(rutCientifico)){
                 //verifico que el cientifico si esta en la lista de cientificos
                 for(int j=0;j<listaProyectosCient.getCantProyecto();j++){
+                	//StdOut.print(listaProyectosCient.getProyectoI(j).getNombreProyecto());
                     Proyecto proy = listaProyectosCient.getProyectoI(j);
                     if(proy.getCodigoProyecto().equals(codProyectoA)){
                         //verifico que el proyecto antiguo este en la lista de proyectos del cientifico
@@ -140,29 +142,6 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
         }
         return ingreso;
     }		
-		
-	
-		/*boolean ingreso = false;
-		Cientifico cientificoBuscado = listaCientificos.buscarCientifico(rutCientifico);
-		if(cientificoBuscado!=null) {
-			ListaProyectosCient LPC = cientificoBuscado.getListaProyectos();
-			Proyecto ProyectoEncontrado = LPC.buscarProyecto(codProyectoA);
-			if(ProyectoEncontrado!=null) {
-				Proyecto ProyE = listaProyectos.buscarProyecto(codProyectoN);
-				if(ProyE!=null) {
-
-					String nombreProyecto = ProyE.getNombreProyecto();
-					int presupuestoTotal = ProyE.getPresupuestoTotal();
-					String dptoResponsable = ProyE.getDptoResponsable();
-					int cantAreasEspecializacion = ProyE.getCantAreasEspecializacion();
-					ListaAreaEspecializacion listaEspecializacion = ProyE.getListaEspecializacion();
-					LPC.setearProyecto(codProyectoA, codProyectoN, nombreProyecto, presupuestoTotal, dptoResponsable, cantAreasEspecializacion, listaEspecializacion);
-					ingreso = true;					
-				}//CAMVIARRRRRR
-			}
-		}
-        return ingreso;
-        */
 	@Override
 	public boolean reasignarCientificoInstalacion(String rutCientifico, String nomInstalacionA, String nomInstalacionN){
         boolean ingreso = false;
@@ -190,7 +169,8 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 			String[] partes = dateStr.split("/");
 			int year = Integer.parseInt(partes[2]);                
 			int month =Integer.parseInt(partes[1]);                      
-			int dayOfMonth = Integer.parseInt(partes[0]);            
+			int dayOfMonth = Integer.parseInt(partes[0]);       
+			
 			
 			if (year < 1900) {
 				return false;//año invalido.
@@ -198,8 +178,16 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
 			else {
 				LocalDate today = LocalDate.of(year, month, dayOfMonth);//tira un false..
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-				return true;
-				//System.out.println(formatter.format(today)); // 01/01/2016
+				String ingresada = formatter.format(today);
+				LocalDateTime now = LocalDateTime.now(); 
+				String fecha = formatter.format(now);
+				if(fecha.equals(ingresada)) {
+					return true;
+				}else {
+					return false;
+				}
+
+				
 			}
 		}
 		catch(java.time.DateTimeException e) {

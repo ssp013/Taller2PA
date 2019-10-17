@@ -11,13 +11,13 @@ public class Instalaciones {
 		return NombreInstalacion;
 	}
 	public void setNombreInstalacion(String nombreInstalacion) {
-		NombreInstalacion = nombreInstalacion;
+		this.NombreInstalacion = nombreInstalacion;
 	}
 	public int getCantidadDptos() {
 		return CantidadDptos;
 	}
 	public void setCantidadDptos(int cantidadDptos) {
-		CantidadDptos = cantidadDptos;
+		this.CantidadDptos = cantidadDptos;
 	}
 	public String toString() {
 		return "Instalaciones [NombreInstalacion]: "+this.NombreInstalacion+", [CantidadDptos]: "+this.CantidadDptos;

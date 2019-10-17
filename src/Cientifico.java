@@ -23,7 +23,7 @@ public class Cientifico {
 	}
 
 	public void setRut(String rut) {
-		Rut = rut;
+		this.Rut = rut;
 	}
 
 	public String getNombre() {
@@ -31,7 +31,7 @@ public class Cientifico {
 	}
 
 	public void setNombre(String nombre) {
-		Nombre = nombre;
+		this.Nombre = nombre;
 	}
 
 	public String getApellidoP() {
@@ -39,7 +39,7 @@ public class Cientifico {
 	}
 
 	public void setApellidoP(String apellidoP) {
-		ApellidoP = apellidoP;
+		this.ApellidoP = apellidoP;
 	}
 
 	public String getApellidoM() {
@@ -47,7 +47,7 @@ public class Cientifico {
 	}
 
 	public void setApellidoM(String apellidoM) {
-		ApellidoM = apellidoM;
+		this.ApellidoM = apellidoM;
 	}
 
 	public String getArea() {
@@ -55,7 +55,7 @@ public class Cientifico {
 	}
 
 	public void setArea(String area) {
-		Area = area;
+		this.Area = area;
 	}
 
 	public int getCostoAsociado() {
@@ -63,7 +63,7 @@ public class Cientifico {
 	}
 
 	public void setCostoAsociado(int costoAsociado) {
-		CostoAsociado = costoAsociado;
+		this.CostoAsociado = costoAsociado;
 	}
 	public ListaProyectosCient getListaProyectos() {
 		return listaProyectos;

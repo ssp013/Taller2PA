@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.InputMismatchException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.text.ParseException;
 import java.time.LocalTime;
@@ -297,7 +298,6 @@ public class App {
 
 
     }	
-
     public static void ListadoPersonasDpto(SistemaSUSTO sistema){
         ListaProyectos listaP = sistema.returnListaProyectos();
         ListaCientificos listaC = sistema.returnListaCient();
@@ -338,7 +338,6 @@ public class App {
 	        break;
 	    }
 	}
-	
 	public static void CostosPorProyecto(SistemaSUSTO sistema){
         ListaProyectos listaP = sistema.returnListaProyectos();
         ListaCientificos listaC = sistema.returnListaCient();
@@ -368,7 +367,6 @@ public class App {
         }
              
     }
-	
 	public static void menuReportesDePersonalYCostos(SistemaSUSTO sistema) throws ParseException {
     	desplegarMenuReportesDePersonalYCostos();
         StdOut.println("Ingrese una opción ");
@@ -707,11 +705,16 @@ public class App {
 		StdOut.println("Ingrese la fecha (dd/MM/yyyy) :");
 		String dateStr = StdIn.readString();
 		boolean resultado = validarFecha(sistema,dateStr);
+
 		while(!resultado) {
-			StdOut.println("Ingrese fecha correcta!");
+			StdOut.println("Ingrese fecha actual!");
 			dateStr = StdIn.readString();
 			resultado = validarFecha(sistema,dateStr);
+
 		}
+
+
+		   
 		menu(sistema);
 	}
 }
