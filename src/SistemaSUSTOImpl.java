@@ -26,6 +26,8 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
     	listaIngresos= new ListaIngresos(1000);
     	listaSalidas = new ListaSalidas(1000);
     	listaAreaEspecializacion = new ListaAreaEspecializacion(1000);
+    	listaIngresos = new ListaIngresos(100);
+    	listaSalidas = new ListaSalidas(100);
     }	
 	@Override
 	public boolean CrearInstalacion(String NombreInstalacion, int CantidadDptos,ListaDepartamentoInstalacion listaNuevaDepto){
@@ -108,27 +110,37 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
         return ingresoB;
     }
 	@Override
-	public boolean reasignarCientificoProyecto(String rutCientifico, String codProyectoA, String codProyectoN){
+    public boolean reasignarCientificoProyecto(String rutCientifico, String codProyectoA, String codProyectoN){
         boolean ingreso = false;
         for(int i=0;i<listaCientificos.getCantCientificos();i++){
             Cientifico cient = listaCientificos.getCientificoI(i);
-            ListaProyectosCient listaProyectosCient = cient.getListaProyectos();
             if(cient.getRut().equals(rutCientifico)){
                 //verifico que el cientifico si esta en la lista de cientificos
-                for(int j=0;j<listaProyectosCient.getCantProyecto();j++){
-                	//StdOut.print(listaProyectosCient.getProyectoI(j).getNombreProyecto());
-                    Proyecto proy = listaProyectosCient.getProyectoI(j);
+                ListaProyectosCient listaProyec = cient.getListaProyectos();
+                for(int j=0;j<listaProyec.getCantProyecto();j++){
+                    Proyecto proy = listaProyec.getProyectoI(j);
                     if(proy.getCodigoProyecto().equals(codProyectoA)){
                         //verifico que el proyecto antiguo este en la lista de proyectos del cientifico
                         for(int k=0;k<listaProyectos.getCantProyectos();k++){
                             Proyecto proy1 = listaProyectos.getProyectoI(k);
                             if(proy1.getCodigoProyecto().equals(codProyectoN)){
                                 //verifico que el proyecto nuevo este en la lista general de proyectos, osea que exista. En este momento estaria todo validado
-                                proy.setCodigoProyecto(codProyectoN);
-                                ingreso = true;
+                                for(int m=0;m<listaDptos.getCantDptos();m++){
+                                    Departamento depa = listaDptos.getDepartamento(i);
+                                    if(proy1.getDptoResponsable().equals(depa.getNombreDpto())){
+                                        if(depa.getCapacidadDpto()>0){
+                                            if(proy1.getPresupuestoTotal()>= cient.getCostoAsociado()){
+                                                //valido que alcance el presupuesto
+                                                proy.setCodigoProyecto(codProyectoN);
+                                                ingreso = true;
+                                            }
+                                            
+                                        }
+                                    }
+                                }
                                 
                             }
-                            
+                             
                         }
                         
                     }
@@ -148,17 +160,33 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
         for(int i=0;i<listaCientificos.getCantCientificos();i++){
             Cientifico cient = listaCientificos.getCientificoI(i);
             if(cient.getRut().equals(rutCientifico)){
-            //verifico si esque el cientifico esta en la lista general de cientificos, osea exista
-                    //verifico que la instalacion antigua este en la lista de instalaciones de instalaciones
+                //verifico si esque el cientifico esta en la lista general de cientificos, osea exista
+                //verifico que la instalacion antigua este en la lista de instalaciones de instalaciones
             	for(int k=0;k<listaInsta.CantInsta();k++){
-                    Instalaciones insta1 = listaInsta.getInstI(i);
-                    if(insta1.getNombreInstalacion().equals(nomInstalacionN)){
-                        //verifico que la nueva instalacion este en la lista general de instalaciones, osea exista. En este momento estaria todo validado
-                        insta.setNombreInstalacion(nomInstalacionN);
-                        ingreso = true;
-                     }
+                    Instalaciones instaA = listaInsta.getInstI(i);
+                    if(instaA.getNombreInstalacion().equals(nomInstalacionA)){
+                        for(int j=0;j<listaInsta.CantInsta();j++){
+                            Instalaciones instaB = listaInsta.getInstI(i);
+                            if(instaB.getNombreInstalacion().equals(nomInstalacionN)){
+                                //verificando que ambas instalaciones existan
+                                ListaDepartamentoInstalacion lDI = instaA.getListaDepartamentoInstalacion();
+                                for(int s=0;s<lDI.getCantDptosInstalacion();s++){
+                                    Departamento d1 = lDI.getDepartamentoInstalacion(s);
+                                    ListaProyectosCient LPC = cient.getListaProyectos();
+                                    for(int l=0;l<LPC.getCantProyecto();l++){
+                                        Proyecto proy = LPC.getProyectoI(l);
+                                        if(proy.getDptoResponsable().equals(d1.getNombreDpto())){
+                                            //si esto se cumple verifico que el cientifico pertenezca al InstalacionA
+                                            ingreso = true;
+                                        }
+                                    }
+                                }
+                                
+                            }
+                        }
+                    }
                            
-                 }
+                }
             }
         }
         return ingreso;
@@ -298,10 +326,56 @@ public class SistemaSUSTOImpl implements SistemaSUSTO {
     }
 	@Override
     public ListaIngresos returnListaIngresos(){
+		
         return listaIngresos;
     }
 	@Override
     public ListaSalidas returnListaSalidas(){
         return listaSalidas;
     }
+	@Override
+	public boolean isValidDate(String dateStr) {
+		try {//"dd/MM/yyyy")
+			String[] partes = dateStr.split("/");
+			int year = Integer.parseInt(partes[2]);                
+			int month =Integer.parseInt(partes[1]);                      
+			int dayOfMonth = Integer.parseInt(partes[0]);       
+			
+			
+			if (year < 1900) {
+				return false;//año invalido.
+			}
+			else {
+				LocalDate today = LocalDate.of(year, month, dayOfMonth);//tira un false..
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+					return true;
+		
+
+				
+			}
+		}
+		catch(java.time.DateTimeException e) {
+			return false;
+		}
+		
+	}
+	@Override
+	public boolean CargarIngresos(String nombreInstalacion,String rut,String fecha, String hora) {
+		boolean resp = false;
+		Ingreso ing = new Ingreso(nombreInstalacion,rut, fecha, hora);
+		if(listaIngresos.ingresarIngreso(ing)) {
+			resp=true;
+		}
+		return resp;
+	}
+	@Override
+	public boolean CargarSalidas(String nombreInstalacion,String rut,String fecha, String hora){
+		boolean resp = false;
+		Salida sal = new Salida(nombreInstalacion,rut, fecha, hora);
+		if(listaSalidas.ingresarSalida(sal)) {
+			resp=true;
+		}
+		return resp;
+	}
+	
 }

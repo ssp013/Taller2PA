@@ -73,5 +73,17 @@ public interface SistemaSUSTO {
 	 //Descripcion: retorna lista general salidas
     //PreCondicion:
     //PostCondiciones:
+	public boolean isValidDate(String dateStr);
+    //Descripcion: Verifica que el formato de la fecha sea el correcto y que fecha exista, por ejemplo, rechaza un 32 de febrero
+    //PreCondicion:
+    //PostCondiciones: Fecha validada.
+	public boolean  CargarIngresos(String nombreInstalacion,String rut,String fecha, String hora);
+    //Descripcion:Carga los ingresos del sistema
+    //PreCondicion:
+    //PostCondiciones:  objeto cargado
+	public boolean  CargarSalidas(String nombreInstalacion,String rut,String fecha, String hora);
+    //Descripcion:Carga los ingresos del sistema
+    //PreCondicion:
+    //PostCondiciones:  objeto cargado
 }
  

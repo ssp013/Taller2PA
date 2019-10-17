@@ -9,7 +9,7 @@ public class Ingreso {
     private String fecha;
     private String hora;
 
-    public Ingreso(String instalacion, String rutCientifico, String fecha, String hora) {
+    public Ingreso(String instalacion, String rutCientifico,String fecha,String hora) {
         this.instalacion = instalacion;
         this.rutCientifico = rutCientifico;
         this.fecha = fecha;

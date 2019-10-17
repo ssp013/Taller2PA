@@ -29,6 +29,14 @@ public class App {
 			return false;
 		}
 	}
+	public static boolean validarFecha2(SistemaSUSTO sistema,String dateStr) {
+		boolean result = sistema.isValidDate(dateStr);
+		if(result) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	public static boolean validarRut(String rut) {
 		boolean validacion = false;
 		try {
@@ -111,6 +119,34 @@ public class App {
 		archivoInstalaciones.close();
 		return resp;
 	}
+	public static boolean cargarTXTIngresos(SistemaSUSTO sistema) throws IOException {
+		boolean resp = false;
+		ArchivoEntrada archivoInstalaciones = new ArchivoEntrada("Ingresos.txt");
+		while(!archivoInstalaciones.isEndFile()){
+			Registro regEnt = archivoInstalaciones.getRegistro();
+			String nombreInstalacion = regEnt.getString(); 
+			String rut =  regEnt.getString();
+			String fecha =  regEnt.getString();
+			String hora = regEnt.getString();
+			resp = sistema.CargarIngresos(nombreInstalacion,rut,fecha,hora);
+		}
+		archivoInstalaciones.close();
+		return resp;
+	}
+	public static boolean cargarTXTEgresos(SistemaSUSTO sistema) throws IOException {
+		boolean resp = false;
+		ArchivoEntrada archivoInstalaciones = new ArchivoEntrada("Salidas.txt");
+		while(!archivoInstalaciones.isEndFile()){
+			Registro regEnt = archivoInstalaciones.getRegistro();
+			String nombreInstalacion = regEnt.getString(); 
+			String rut =  regEnt.getString();
+			String fecha =  regEnt.getString();
+			String hora = regEnt.getString();
+			resp = sistema.CargarSalidas(nombreInstalacion,rut,fecha,hora);
+		}
+		archivoInstalaciones.close();
+		return resp;
+	}
 	public static boolean cargarTXTProyectos(SistemaSUSTO sistema) throws IOException {
 		boolean resp = false;
 		ArchivoEntrada archivoProyecto = new ArchivoEntrada("Proyectos.txt");
@@ -150,11 +186,13 @@ public class App {
 		return resp;
 	}
 	public static boolean cargarTXT(SistemaSUSTO sistema) throws IOException {
-		boolean resp1,resp2,resp3;
+		boolean resp1,resp2,resp3,resp4,resp5;
 		resp1=cargarTXTInstalaciones(sistema);
 		resp2=cargarTXTProyectos(sistema);
 		resp3=cargarTXTCientifico(sistema);
-		if(resp1==true && resp2 ==true && resp3 == true) {
+		resp4 = cargarTXTIngresos(sistema);
+		resp5 = cargarTXTEgresos(sistema);
+		if(resp1==true && resp2 ==true && resp3 == true && resp4 ==true && resp5 == true) {
 			return true;
 		}else {
 			return false;
@@ -386,7 +424,7 @@ public class App {
                 	HorasTrabajadas(sistema);
                 break;
                 case 5:
-                	StdOut.println("hola");
+                	StdOut.println("Problemas técnicos");//creamos clase y su contenedor. 
                 break;
                 case 6:
                 	StdOut.println("Salida con éxito!");
@@ -515,11 +553,11 @@ public class App {
 		String rutCientifico = StdIn.readString();
 		StdOut.println("Ingrese la fecha (dd/MM/yyyy) : ");
 		String fecha = StdIn.readString();
-		boolean resultado = validarFecha(sistema,fecha);
+		boolean resultado = validarFecha2(sistema,fecha);
 		while(!resultado) {
 			StdOut.println("Ingrese fecha correcta!");
 			fecha = StdIn.readString();
-			resultado = validarFecha(sistema,fecha);
+			resultado = validarFecha2(sistema,fecha);
 		}
 		StdOut.println("Ingrese la hora (hh:mm) : ");
 		String hora = StdIn.readString();
@@ -545,11 +583,11 @@ public class App {
 		String rutCientifico = StdIn.readString();
 		StdOut.println("Ingrese la fecha (dd/MM/yyyy) : ");
 		String fecha = StdIn.readString();
-		boolean resultado = validarFecha(sistema,fecha);
+		boolean resultado = validarFecha2(sistema,fecha);
 		while(!resultado) {
 			StdOut.println("Ingrese fecha correcta!");
 			fecha = StdIn.readString();
-			resultado = validarFecha(sistema,fecha);
+			resultado = validarFecha2(sistema,fecha);
 		}
 		StdOut.println("Ingrese la hora (hh:mm) : ");
 		String hora = StdIn.readString();
@@ -690,6 +728,7 @@ public class App {
                 	}
                 break;
                 case 6:
+                	
                 	StdOut.println("Muchas gracias por ocupar sistema SUSTO ");
                 break;
             }
@@ -697,7 +736,82 @@ public class App {
             StdOut.println("Ingrese una opción ");
             op = validarOpcion();
         }
-	
+        ActualizarTXT(sistema);
+	}
+	public static void sacarTXTCientifico(SistemaSUSTO sistema)throws IOException{
+		ListaCientificos listaGlobCienti = sistema.returnListaCient();
+		ArchivoSalida archivo = new ArchivoSalida("Cientificos.txt");
+		for(int i =0;i<listaGlobCienti.getCantCientificos();i++) {
+			Cientifico sc1 = listaGlobCienti.getCientificoI(i);
+			if(sc1!=null) {
+				ListaProyectosCient lista = sc1.getListaProyectos();
+				for(int k=0;k<lista.getCantProyecto();k++) {
+					if(lista.getProyectoI(k).getCodigoProyecto()!=null) {
+						StdOut.println(lista.getProyectoI(k).getCodigoProyecto());
+						Registro linea = new Registro(7);
+						linea.agregarCampo(sc1.getRut());
+						linea.agregarCampo(sc1.getNombre());
+						linea.agregarCampo(sc1.getApellidoP());
+						linea.agregarCampo(sc1.getApellidoM());
+						linea.agregarCampo(sc1.getArea());
+						linea.agregarCampo(sc1.getCostoAsociado());
+						linea.agregarCampo(lista.getProyectoI(k).getCodigoProyecto());
+						archivo.writeRegistro(linea);		
+					}
+				}	
+			}
+		}
+		archivo.close();
+	}
+	public static void sacarTXTProyectos(SistemaSUSTO sistema)throws IOException{
+		ListaProyectos listaGlobProyec = sistema.returnListaProyectos();
+		ArchivoSalida archivo = new ArchivoSalida("Proyectos.txt");
+		for(int i =0;i<listaGlobProyec.getCantProyectos();i++) {
+			Proyecto py1 = listaGlobProyec.getProyectoI(i);
+			if(py1!=null) {
+				ListaAreaEspecializacion lista = py1.getListaEspecializacion();
+				for(int k=0;k<lista.getcantArea();k++) {
+					if(lista.getAreaEspecializacionI(k).getNombre()!=null) {
+						Registro linea = new Registro(6);
+						linea.agregarCampo(py1.getCodigoProyecto());
+						linea.agregarCampo(py1.getNombreProyecto());
+						linea.agregarCampo(py1.getPresupuestoTotal());
+						linea.agregarCampo(py1.getDptoResponsable());
+						linea.agregarCampo(py1.getCantAreasEspecializacion());
+						linea.agregarCampo(lista.getAreaEspecializacionI(k).getNombre());
+						archivo.writeRegistro(linea);		
+					}
+				}	
+			}
+		}
+		archivo.close();
+	}
+	public static void sacarTXTInstalaciones(SistemaSUSTO sistema)throws IOException{
+		ListaInsta listaGlobal = sistema.returnListaInsta();
+		ArchivoSalida archivo = new ArchivoSalida("Instalaciones.txt");
+		for(int i =0;i<listaGlobal.CantInsta();i++) {
+			Instalaciones is1 = listaGlobal.getInstI(i);
+			if(is1!=null) {
+				ListaDepartamentoInstalacion lista = is1.getListaDepartamentoInstalacion();
+				for(int k=0;k<lista.getCantDptosInstalacion();k++) {
+					if(lista.getDepartamentoInstalacion(k).getNombreDpto()!=null) {
+						Registro linea = new Registro(5);
+						linea.agregarCampo(is1.getNombreInstalacion());
+						linea.agregarCampo(is1.getCantidadDptos());
+						linea.agregarCampo(lista.getDepartamentoInstalacion(k).getNombreDpto());
+						linea.agregarCampo(lista.getDepartamentoInstalacion(k).getCapacidadDpto());
+						linea.agregarCampo(lista.getDepartamentoInstalacion(k).getPresupuesto());
+						archivo.writeRegistro(linea);		
+					}
+				}	
+			}
+		}
+		archivo.close();
+	}
+	public static void ActualizarTXT(SistemaSUSTO sistema)throws IOException{
+		sacarTXTCientifico(sistema);
+		sacarTXTProyectos(sistema);
+		sacarTXTInstalaciones(sistema);
 	}
 	public static void main(String[] args) throws IOException, ParseException {
 		StdOut.println("¡Bienvenido al sistema SUSTO!");
@@ -712,9 +826,6 @@ public class App {
 			resultado = validarFecha(sistema,dateStr);
 
 		}
-
-
-		   
 		menu(sistema);
 	}
 }
