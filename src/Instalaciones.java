@@ -1,7 +1,7 @@
 
 public class Instalaciones {
 	private String NombreInstalacion;
-	private int CantidadDptos;
+	private int CantidadDptos;//Sacar.
 	private ListaDepartamentoInstalacion listaDepartamentoInstalacion;
 	public Instalaciones(String NombreInstalacion,int CantidadDptos) {
 		this.NombreInstalacion = NombreInstalacion;
